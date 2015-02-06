@@ -1,8 +1,10 @@
-package com.company;
+package com.classes;
 
+import com.classes.util.Resource;
 import org.jsfml.graphics.ConstView;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.View;
+import org.jsfml.system.Vector2f;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
@@ -16,6 +18,10 @@ public class Main {
 
     private final float viewZoom = 0.5f;
 
+    private final Resource loader;
+
+    private final Player player;
+
     private Main() {
 
         renderWindow = new RenderWindow();
@@ -25,6 +31,9 @@ public class Main {
 
         gameView = new View(defaultView.getCenter(), defaultView.getSize());
         gameView.zoom(viewZoom);
+
+        loader = new Resource();
+        player = new Player(loader, "player", new Vector2f(0,0), gameView);
 
         runGame();
 
@@ -59,11 +68,11 @@ public class Main {
                 case KEY_PRESSED:
                     switch (event.asKeyEvent().key) {
 
-                        case W:
-                            System.out.println("W");
+                        case D:
+                            player.addAcceleration(new Vector2f(1, 0));
                             break;
-                        case S:
-                            System.out.println("S");
+                        case A:
+                            player.addAcceleration(new Vector2f(-1, 0));
                             break;
                     }
                     break;
