@@ -137,16 +137,16 @@ public class Main {
                     switch (event.asKeyEvent().key) {
 
                         case D:
-                           // player.stopMovementHorizontally(Direction.RIGHT);
+                            player.stopMovementHorizontally(Direction.RIGHT);
                             break;
                         case A:
-                           // player.stopMovementHorizontally(Direction.LEFT);
+                            player.stopMovementHorizontally(Direction.LEFT);
                             break;
                         case S:
-                            //player.stopMovementVertically(Direction.DOWN);
+                            player.stopMovementVertically(Direction.DOWN);
                             break;
                         case W:
-                            //player.stopMovementVertically(Direction.UP);
+                            player.stopMovementVertically(Direction.UP);
                             break;
                     }
                     break;
@@ -159,7 +159,7 @@ public class Main {
 
         player.update();
 
-        //System.out.println(player);
+        System.out.println(player);
 
         for(Entity entity: entityList) {
             entity.update();

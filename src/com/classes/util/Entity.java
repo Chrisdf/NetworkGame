@@ -62,29 +62,35 @@ public class Entity implements Drawable {
     public void applyFriction() {
 
         //If entity is accelerating on either axis
-        if(acceleration.x != 0 || acceleration.y != 0) {
+        if(FloatFunctions.isEqual(acceleration.x, 0) || FloatFunctions.isEqual(acceleration.y, 0)) {
 
             //Take the absolute value of acceleration
-            Vector2f absAcceleration = VectorFunctions.abs(acceleration);
+            Vector2f absVelocity= VectorFunctions.abs(velocity);
 
             //System.out.println(absAcceleration);
 
             //If the absolute value of x acceleration is not equal to zero, decrease by one
-            if(absAcceleration.x != 0)
-                absAcceleration = Vector2f.sub(absAcceleration, new Vector2f(.1f, 0));
+            if(!FloatFunctions.isEqual(absVelocity.x, 0, 0.01))
+                absVelocity = Vector2f.sub(absVelocity, new Vector2f(.1f, 0));
 
             //System.out.println(absAcceleration);
 
             //If the absolute value of y acceleration is not equal to zero, decrease by one
-            if(absAcceleration.y != 0)
-                absAcceleration = Vector2f.sub(absAcceleration, new Vector2f(0, .1f));
+            if(!FloatFunctions.isEqual(absVelocity.y,0, 0.01))
+                absVelocity = Vector2f.sub(absVelocity, new Vector2f(0, .1f));
 
 
             //System.out.println(absAcceleration);
 
             //Set velocity to the absolute velocity times the original velocity directions
-            acceleration = Vector2f.componentwiseMul(absAcceleration, VectorFunctions.getSign(acceleration));
+            velocity = Vector2f.componentwiseMul(absVelocity, VectorFunctions.getSign(acceleration));
         }
+
+        if(FloatFunctions.isEqual(velocity.x, 0f, 0.01))
+            velocity = new Vector2f(0, velocity.y);
+
+        if(FloatFunctions.isEqual(velocity.y, 0f, 0.01))
+            velocity = new Vector2f(velocity.x, 0);
     }
 
     public void setCollisionBox(){
@@ -123,10 +129,10 @@ public class Entity implements Drawable {
                 sign = +1;
                 break;
             case UP:
-                sign = +1;
+                sign = -1;
                 break;
             case DOWN:
-                sign = -1;
+                sign = +1;
                 break;
         }
         return sign;
