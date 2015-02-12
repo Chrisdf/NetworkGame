@@ -30,6 +30,7 @@ public class Resource {
         addTexture("yoda", "png");
         addFont("heav", "ttf");
         addTexture("stone", "png");
+        addTexture("grass", "png");
     }
 
     public void addTexture(String name, String extension) {

@@ -48,6 +48,9 @@ public class Room implements Drawable {
                 spritePosition = VectorFunctions.round(spritePosition);
 
                 roomTiles[i][d] = new Tile(tileTexture, tileDimensions, spritePosition);
+
+                if(i == 0 || i == roomTiles.length -1 || d == 0 || d == roomTiles[i].length-1)
+                    roomTiles[i][d] = new Tile("grass", tileDimensions, spritePosition);
             }
     }
 
@@ -65,5 +68,10 @@ public class Room implements Drawable {
         for(Tile[] horizontal: roomTiles)
             for(Tile current: horizontal)
                 current.draw(renderTarget, renderStates);
+    }
+
+    public FloatRect getCornerCoords(){
+
+        return cornerCoords;
     }
 }

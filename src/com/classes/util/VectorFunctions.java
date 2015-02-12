@@ -1,6 +1,7 @@
 package com.classes.util;
 
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 
 import java.util.Vector;
 
@@ -26,6 +27,17 @@ public class VectorFunctions {
 
 
         return new Vector2f(xPos, yPos);
+    }
+
+    public static Vector2i randomNum(Vector2i xRange, Vector2i yRange) {
+
+        int xDiff = xRange.y - xRange.x;
+        int yDiff = yRange.y - yRange.x;
+
+        int xRand = (int)(Math.random() * xDiff) + xRange.x;
+        int yRand = (int)(Math.random() * yDiff) + yRange.x;
+
+        return new Vector2i(xRand, yRand);
     }
 
     public static Vector2f getSign(Vector2f vector){
