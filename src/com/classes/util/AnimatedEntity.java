@@ -9,25 +9,24 @@ import org.jsfml.system.Vector2i;
  */
 public class AnimatedEntity extends Entity {
 
-    private int currentFrame;
+    protected boolean isAnimating;
 
-    private int verticalFramePosition;
+    protected int currentFrame;
 
-    private int uniqueAnimationFrames;
+    protected int verticalFramePosition;
 
-    private int framesPerAnimation;
+    protected int uniqueAnimationFrames;
 
-    public Vector2i spriteSize;
+    protected int framesPerAnimation;
 
-    private Direction direction;
+    protected Vector2i spriteSize;
 
-    public AnimatedEntity(Resource loader, String textureName, Vector2f gamePosition, int framesPerAnimation){
+    public AnimatedEntity(String textureName, Vector2f gamePosition, int framesPerAnimation){
 
-        super(loader, textureName, gamePosition);
+        super(textureName, gamePosition);
         uniqueAnimationFrames = 4;
         spriteSize = Vector2i.div(spriteTexture.getSize(), uniqueAnimationFrames);
         this.framesPerAnimation = framesPerAnimation;
-        direction = Direction.SOUTH;
         verticalFramePosition = getVerticalFramePosition();
 
         IntRect textureRect = new IntRect(currentFrame/framesPerAnimation, verticalFramePosition, spriteSize.x, spriteSize.y);
@@ -45,7 +44,7 @@ public class AnimatedEntity extends Entity {
             case EAST:
                 return 2;
             case NORTH:
-                return 4;
+                return 3;
         }
 
         System.out.print("Something went wrong finding direction");
@@ -55,7 +54,13 @@ public class AnimatedEntity extends Entity {
     public void update(){
 
         super.update();
-        currentFrame++;
+
+        verticalFramePosition = getVerticalFramePosition();
+
+        if(isAnimating)
+            currentFrame++;
+        else
+            currentFrame = 0;
 
         if(currentFrame >= framesPerAnimation * uniqueAnimationFrames)
             currentFrame = 0;
@@ -64,5 +69,9 @@ public class AnimatedEntity extends Entity {
         int yStartCoords = spriteSize.y * verticalFramePosition;
         IntRect textureRect = new IntRect(xStartCoords, yStartCoords, spriteSize.x, spriteSize.y);
         sprite.setTextureRect(textureRect);
+    }
+
+    protected void setFramesPerAnimation(int framesPerAnimation) {
+        this.framesPerAnimation = framesPerAnimation;
     }
 }

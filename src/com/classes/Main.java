@@ -1,7 +1,9 @@
 package com.classes;
 
 import com.classes.ui.FPS;
-import com.classes.util.*;
+import com.classes.util.Entity;
+import com.classes.util.Resource;
+import com.classes.util.UIElement;
 import org.jsfml.graphics.ConstView;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.View;
@@ -24,7 +26,7 @@ public class Main {
 
     private FPS fps;
 
-    private final Resource loader;
+    private static Resource loader;
 
     private ArrayList<Entity> entityList;
 
@@ -46,11 +48,10 @@ public class Main {
         loader = new Resource();
 
 
-        fps = new FPS(loader);
-        player = new Player(loader, "yoda", new Vector2f(0,0), gameView, 10);
+        fps = new FPS();
+        player = new Player("yoda", new Vector2f(0, 0), gameView, 5);
 
         entityList = new ArrayList<Entity>();
-        entityList.add(new NPC(loader, "back", new Vector2f(0,0)));
 
         uiElements = new ArrayList<UIElement>();
         uiElements.add(fps);
@@ -68,7 +69,7 @@ public class Main {
 
         Clock gameClock = new Clock();
 
-        final float seconds_per_tick = 1/20f;
+        final float seconds_per_tick = 1 / 20f;
         float lag = 0;
         int framesDrawn = 0;
         float frameTime = 0;
@@ -83,7 +84,7 @@ public class Main {
 
             handleInput();
 
-            while(lag >= seconds_per_tick) {
+            while (lag >= seconds_per_tick) {
 
                 update();
                 lag -= seconds_per_tick;
@@ -92,7 +93,7 @@ public class Main {
 
             draw(lag / seconds_per_tick);
 
-            if(frameTime >= 1.0f) {
+            if (frameTime >= 1.0f) {
                 fps.displayFPS((int) (framesDrawn / frameTime));
                 framesDrawn = 0;
                 frameTime = 0;
@@ -116,17 +117,19 @@ public class Main {
                     switch (event.asKeyEvent().key) {
 
                         case D:
-                            player.setAcceleration(new Vector2f(1f, player.acceleration.y));
+                            player.addInput("D");
                             break;
                         case A:
-                            player.setAcceleration(new Vector2f(-1f, player.acceleration.y));
+                            player.addInput("A");
                             break;
                         case S:
-                            player.setAcceleration(new Vector2f(player.acceleration.x, 1f));
+                            player.addInput("S");
                             break;
                         case W:
-                            player.setAcceleration(new Vector2f(player.acceleration.x, -1f));
+                            player.addInput("W");
                             break;
+                        case LSHIFT:
+                            player.addInput("LSHIFT");
                     }
                     break;
 
@@ -134,17 +137,19 @@ public class Main {
                     switch (event.asKeyEvent().key) {
 
                         case D:
-                            player.stopMovementHorizontally(Direction.EAST);
+                            player.addInput("D_RELEASED");
                             break;
                         case A:
-                            player.stopMovementHorizontally(Direction.WEST);
+                            player.addInput("A_RELEASED");
                             break;
                         case S:
-                            player.stopMovementVertically(Direction.SOUTH);
+                            player.addInput("S_RELEASED");
                             break;
                         case W:
-                            player.stopMovementVertically(Direction.NORTH);
+                            player.addInput("W_RELEASED");
                             break;
+                        case LSHIFT:
+                            player.addInput("LSHIFT_RELEASED");
                     }
                     break;
             }
@@ -158,7 +163,7 @@ public class Main {
 
         System.out.println(player);
 
-        for(Entity entity: entityList) {
+        for (Entity entity : entityList) {
             entity.update();
         }
     }
@@ -172,12 +177,12 @@ public class Main {
         renderWindow.setView(defaultView);
 
 
-        for(UIElement ui: uiElements)
+        for (UIElement ui : uiElements)
             renderWindow.draw(ui);
 
         renderWindow.setView(gameView);
 
-        for(Entity entity: entityList) {
+        for (Entity entity : entityList) {
             entity.interpolate(deltaTime);
             renderWindow.draw(entity);
         }
@@ -185,5 +190,9 @@ public class Main {
         renderWindow.draw(player);
 
         renderWindow.display();
+    }
+
+    public static Resource getLoader() {
+        return loader;
     }
 }

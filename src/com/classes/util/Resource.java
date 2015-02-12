@@ -27,10 +27,9 @@ public class Resource {
     }
 
     public void addResources() {
-        addTexture("player", "jpg");
-        addTexture("back", "jpg");
         addTexture("yoda", "png");
         addFont("heav", "ttf");
+        addTexture("House_Stone(10)", "png");
     }
 
     public void addTexture(String name, String extension) {

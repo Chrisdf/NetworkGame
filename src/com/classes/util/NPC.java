@@ -9,7 +9,7 @@ public class NPC extends Entity{
 
     public NPC(Resource loader, String textureName, Vector2f gamePosition) {
 
-        super(loader, textureName, gamePosition);
+        super(textureName, gamePosition);
     }
 
     @Override
