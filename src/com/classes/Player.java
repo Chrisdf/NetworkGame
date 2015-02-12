@@ -26,12 +26,12 @@ public class Player extends AnimatedEntity {
     @Override
     public void setCollisionBox(){
 
-        int xTextureWidth = sprite.getTextureRect().left + sprite.getTextureRect().width;
-        int yTextureWidth = sprite.getTextureRect().top + sprite.getTextureRect().height;
+        int xTextureWidth = sprite.getTextureRect().width;
+        int yTextureWidth =  sprite.getTextureRect().height;
         Vector2f textureSize = new Vector2f(xTextureWidth, yTextureWidth);
 
-        collisionBox.setSize(Vector2f.div(textureSize, 1.25f));
-        collisionBox.setPosition(Vector2f.add(gamePosition, Vector2f.div(new Vector2f(sprite.getTexture().getSize()), 9)));
+        collisionBox.setSize(Vector2f.div(textureSize, 1.5f));
+        collisionBox.setPosition(Vector2f.add(gamePosition, Vector2f.div(new Vector2f(sprite.getTexture().getSize()), 18)));
         collisionBox.setFillColor(new Color(Color.BLUE, 144));
     }
 
