@@ -86,7 +86,7 @@ public class Player extends AnimatedEntity {
         if (inputList.contains("LSHIFT")) {
 
             setFramesPerAnimation(3);
-            maxVelocity = Vector2f.mul(maxVelocity, 1.25f);
+            maxVelocity = Vector2f.mul(maxVelocity, 2f);
         }
 
         if(inputList.contains("D_RELEASED")) {

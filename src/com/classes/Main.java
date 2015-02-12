@@ -23,7 +23,7 @@ public class Main {
 
     private final View gameView;
 
-    private final float viewZoom = 0.5f;
+    private final float viewZoom = 5f;
 
     private FPS fps;
 
@@ -164,8 +164,6 @@ public class Main {
     private void update() {
 
         player.update();
-
-        System.out.println(player);
 
         for (Entity entity : entityList) {
             entity.update();

@@ -23,7 +23,7 @@ public class Map implements Drawable{
     public Map(IntRect mapDimensions) {
 
         roomList = new ArrayList<Room>();
-        numOfDungeons = (int)(Math.random() * 2) + 1;
+        numOfDungeons = (int)(Math.random() * 8) + 1;
 
         int currentNumOfDungeons = 0;
 
@@ -31,26 +31,18 @@ public class Map implements Drawable{
 
             Vector2i roomDimensions = VectorFunctions.randomNum(new Vector2i(5,15), new Vector2i(10, 30));
 
-            Vector2i mapBoundsX = new Vector2i(-400, 800);
-            Vector2i mapBoundsY = new Vector2i(-400, 800);
+            Vector2i mapBoundsX = new Vector2i(mapDimensions.left, mapDimensions.width);
+            Vector2i mapBoundsY = new Vector2i( mapDimensions.top, mapDimensions.height);
             Vector2f roomCoords = new Vector2f(VectorFunctions.randomNum(mapBoundsX, mapBoundsY));
 
             Room currentRoom = new Room(roomDimensions, roomCoords, "stone");
 
-            boolean doesNotIntersect = true;
-
-            for(Room room: roomList) {
-                if(room.getCornerCoords().intersection(currentRoom.getCornerCoords()) != null)
-                    doesNotIntersect = false;
-            }
-
-            if(doesNotIntersect == true) {
-                roomList.add(currentRoom);
-                currentNumOfDungeons++;
-            }
+            if(checkForIntersections(currentRoom) == true)
+                currentRoom = null;
 
             else
-                currentRoom = null;
+                currentNumOfDungeons++;
+                roomList.add(currentRoom);
         }
 
     }
@@ -59,6 +51,18 @@ public class Map implements Drawable{
 
         new Map(mapDimensions);
         this.numOfDungeons = numOfDunegeons;
+    }
+
+    private boolean checkForIntersections(Room currentRoom) {
+
+        boolean intersects = false;
+
+        for(Room room: roomList) {
+            if(room.getCornerCoords().intersection(currentRoom.getCornerCoords()) != null)
+                intersects = true;
+        }
+
+        return intersects;
     }
 
     public void draw(RenderTarget renderTarget, RenderStates renderStates) {
