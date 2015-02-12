@@ -5,6 +5,7 @@ import com.classes.util.Entity;
 import com.classes.util.Resource;
 import com.classes.util.UIElement;
 import org.jsfml.graphics.ConstView;
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Clock;
@@ -32,6 +33,8 @@ public class Main {
 
     private ArrayList<UIElement> uiElements;
 
+    private Map currentMap;
+
     private final Player player;
 
     private Main() {
@@ -47,6 +50,7 @@ public class Main {
 
         loader = new Resource();
 
+        currentMap = new Map(new IntRect(-400, -400, 800, 800));
 
         fps = new FPS();
         player = new Player("yoda", new Vector2f(0, 0), gameView, 5);
@@ -173,14 +177,9 @@ public class Main {
 
         renderWindow.clear();
 
-
-        renderWindow.setView(defaultView);
-
-
-        for (UIElement ui : uiElements)
-            renderWindow.draw(ui);
-
         renderWindow.setView(gameView);
+
+        renderWindow.draw(currentMap);
 
         for (Entity entity : entityList) {
             entity.interpolate(deltaTime);
@@ -188,6 +187,12 @@ public class Main {
         }
 
         renderWindow.draw(player);
+
+
+        renderWindow.setView(defaultView);
+
+        for (UIElement ui : uiElements)
+            renderWindow.draw(ui);
 
         renderWindow.display();
     }

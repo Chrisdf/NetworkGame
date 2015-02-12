@@ -29,7 +29,7 @@ public class Resource {
     public void addResources() {
         addTexture("yoda", "png");
         addFont("heav", "ttf");
-        addTexture("House_Stone(10)", "png");
+        addTexture("stone", "png");
     }
 
     public void addTexture(String name, String extension) {

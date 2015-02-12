@@ -1,17 +1,22 @@
 package com.classes.util;
 
+import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.FloatRect;
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 /**
  * Created by Chris on 2/12/2015.
  */
-public class Room {
+public class Room implements Drawable {
 
     private Tile[][] roomTiles;
 
     private Vector2i tileDimensions;
+
+    private Vector2i tileScale;
 
     private FloatRect cornerCoords;
 
@@ -24,6 +29,8 @@ public class Room {
     public Room(Vector2i roomDimensions, Vector2f topLeftCoords, String tileTexture) {
 
         tileDimensions = new Vector2i(129,129);
+        tileScale = new Vector2i(2, 2);
+        tileDimensions = Vector2i.componentwiseDiv(tileDimensions, tileScale);
         this.roomdDimensions = roomDimensions;
         this.topLeftCoords = topLeftCoords;
         cornerCoords = new FloatRect(topLeftCoords, new Vector2f(roomdDimensions));
@@ -36,10 +43,11 @@ public class Room {
                 Vector2f startingPosition = topLeftCoords;
 
                 float spritePositionX = startingPosition.x + (i * tileDimensions.x);
-                float spritePositionY = startingPosition.y + (i * tileDimensions.y);
+                float spritePositionY = startingPosition.y + (d * tileDimensions.y);
                 Vector2f spritePosition = new Vector2f(spritePositionX, spritePositionY);
+                spritePosition = VectorFunctions.round(spritePosition);
 
-                roomTiles[i][d] = new Tile("House_Stone(10)", tileDimensions, spritePosition);
+                roomTiles[i][d] = new Tile(tileTexture, tileDimensions, spritePosition);
             }
     }
 
@@ -49,5 +57,13 @@ public class Room {
         float centerY = topLeftCoords.y + roomdDimensions.y / 2;
 
         return new Vector2f(centerX, centerY);
+    }
+
+    @Override
+    public void draw(RenderTarget renderTarget, RenderStates renderStates) {
+
+        for(Tile[] horizontal: roomTiles)
+            for(Tile current: horizontal)
+                current.draw(renderTarget, renderStates);
     }
 }

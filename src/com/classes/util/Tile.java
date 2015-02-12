@@ -26,9 +26,11 @@ public class Tile implements Drawable {
 
         this.tileDimensions = tileDimensions;
         spriteTexture = Main.getLoader().getTexture(textureName);
+        spriteTexture.setRepeated(true);
         tileArea = new IntRect(new Vector2i(gamePosition), tileDimensions);
         tileSprite = new Sprite(spriteTexture);
         tileSprite.setPosition(gamePosition);
+        tileSprite.setScale(new Vector2f(0.5f, 0.5f));
         tileFriction = 0.4f;
 
     }
