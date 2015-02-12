@@ -26,10 +26,10 @@ public class NPC extends Entity{
         switch(randomNum) {
 
             case 1:
-                super.setAcceleration(Direction.LEFT, new Vector2f(0.5f, 0f));
+                super.setAcceleration( new Vector2f(-0.5f, 0f));
                 break;
             case 2:
-                super.setAcceleration(Direction.RIGHT, new Vector2f(0.5f, 0f));
+                super.setAcceleration(new Vector2f(0.5f, 0f));
                 break;
             case 3:
                 super.stopMovement();

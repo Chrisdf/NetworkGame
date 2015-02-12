@@ -10,7 +10,6 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Main {
@@ -45,9 +44,9 @@ public class Main {
         gameView.zoom(viewZoom);
 
         loader = new Resource();
-        loader.addTexture("player");
-        loader.addTexture("back");
-        loader.addFont("heav");
+        loader.addTexture("player", "jpg");
+        loader.addTexture("back", "jpg");
+        loader.addFont("heav", "jpg");
 
         fps = new FPS(loader);
         player = new Player(loader, "player", new Vector2f(0,0), gameView);
@@ -119,16 +118,16 @@ public class Main {
                     switch (event.asKeyEvent().key) {
 
                         case D:
-                            player.setAcceleration(Direction.RIGHT, new Vector2f(0.5f, player.acceleration.y));
+                            player.setAcceleration(new Vector2f(1f, player.acceleration.y));
                             break;
                         case A:
-                            player.setAcceleration(Direction.LEFT, new Vector2f(0.5f, player.acceleration.y));
+                            player.setAcceleration(new Vector2f(-1f, player.acceleration.y));
                             break;
                         case S:
-                            player.setAcceleration(Direction.UP, new Vector2f(player.acceleration.x, 0.5f));
+                            player.setAcceleration(new Vector2f(player.acceleration.x, 1f));
                             break;
                         case W:
-                            player.setAcceleration(Direction.DOWN, new Vector2f(player.acceleration.x, 0.5f));
+                            player.setAcceleration(new Vector2f(player.acceleration.x, -1f));
                             break;
                     }
                     break;

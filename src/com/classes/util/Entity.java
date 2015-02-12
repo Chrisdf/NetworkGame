@@ -12,8 +12,6 @@ import java.util.Vector;
  */
 public class Entity implements Drawable {
 
-    public Vector2f dimensions;
-
     public Vector2f velocity;
 
     public Vector2f acceleration;
@@ -45,52 +43,26 @@ public class Entity implements Drawable {
 
     private Vector2f getBottomCenterPosition(Vector2f imageDimensions) {
 
-        float xCoords = imageDimensions.x / 2;
-        float yCoords = imageDimensions.y;
-
-        return new Vector2f(xCoords, yCoords);
+        return new Vector2f(imageDimensions.x / 2, imageDimensions.y);
     }
 
-    public void setAcceleration(Direction direction, Vector2f change) {
+    public void setAcceleration(Vector2f change) {
 
-        int sign = getSign(direction);
-
-        acceleration = Vector2f.mul(change, sign);
-
+        acceleration = change;
     }
 
     public void applyFriction() {
 
-        //If entity is accelerating on either axis
-        if(FloatFunctions.isEqual(acceleration.x, 0) || FloatFunctions.isEqual(acceleration.y, 0)) {
+        float friction = 0.4f;
 
-            //Take the absolute value of acceleration
-            Vector2f absVelocity= VectorFunctions.abs(velocity);
+        //If entity is not accelerating then apply friction
+        //TODO: Apply friction based on floor material
+        if(FloatFunctions.isEqual(acceleration.x, 0))
+            velocity = new Vector2f(velocity.x * friction, velocity.y);
 
-            //System.out.println(absAcceleration);
+        if(FloatFunctions.isEqual(acceleration.y, 0))
+            velocity = new Vector2f(velocity.x, velocity.y * friction);
 
-            //If the absolute value of x acceleration is not equal to zero, decrease by one
-            if(!FloatFunctions.isEqual(absVelocity.x, 0, 0.01))
-                absVelocity = Vector2f.sub(absVelocity, new Vector2f(.1f, 0));
-
-            //System.out.println(absAcceleration);
-
-            //If the absolute value of y acceleration is not equal to zero, decrease by one
-            if(!FloatFunctions.isEqual(absVelocity.y,0, 0.01))
-                absVelocity = Vector2f.sub(absVelocity, new Vector2f(0, .1f));
-
-
-            //System.out.println(absAcceleration);
-
-            //Set velocity to the absolute velocity times the original velocity directions
-            velocity = Vector2f.componentwiseMul(absVelocity, VectorFunctions.getSign(acceleration));
-        }
-
-        if(FloatFunctions.isEqual(velocity.x, 0f, 0.01))
-            velocity = new Vector2f(0, velocity.y);
-
-        if(FloatFunctions.isEqual(velocity.y, 0f, 0.01))
-            velocity = new Vector2f(velocity.x, 0);
     }
 
     public void setCollisionBox(){
@@ -107,7 +79,7 @@ public class Entity implements Drawable {
             velocity = new Vector2f(velocity.x + acceleration.x, velocity.y);
 
         if(Math.abs(velocity.y + acceleration.y) <= maxVelocity.y)
-            velocity = new Vector2f(velocity.x , velocity.y + acceleration.y);
+            velocity = new Vector2f(velocity.x, velocity.y + acceleration.y);
 
         gamePosition = Vector2f.add(gamePosition, velocity);
         sprite.setPosition(gamePosition);
@@ -117,26 +89,6 @@ public class Entity implements Drawable {
         applyFriction();
     }
 
-    public int getSign(Direction direction) {
-
-        int sign = 1;
-
-        switch (direction) {
-            case LEFT:
-                sign = -1;
-                break;
-            case RIGHT:
-                sign = +1;
-                break;
-            case UP:
-                sign = -1;
-                break;
-            case DOWN:
-                sign = +1;
-                break;
-        }
-        return sign;
-    }
 
     public void stopMovement(){
 
@@ -146,18 +98,12 @@ public class Entity implements Drawable {
 
     public void stopMovementHorizontally(Direction dir) {
 
-        //If the velocity's x value is the same sign as the direction then stop movement
-        if(VectorFunctions.getSign(velocity).x == getSign(dir)) {
-            acceleration = new Vector2f(0, velocity.y);
-        }
+        acceleration = new Vector2f(0, acceleration.y);
     }
 
     public void stopMovementVertically(Direction dir) {
 
-        //If the velocity's y value is the same sign as the direction then stop movement
-        if(VectorFunctions.getSign(velocity).y == getSign(dir)) {
-            acceleration = new Vector2f(velocity.x, 0);
-        }
+        acceleration = new Vector2f(acceleration.x, 0);
     }
 
     public void interpolate(Float deltaTime) {
@@ -179,7 +125,7 @@ public class Entity implements Drawable {
     public void draw(RenderTarget renderTarget, RenderStates renderStates) {
 
         sprite.draw(renderTarget, renderStates);
-        //collisionBox.draw(renderTarget, renderStates);
+        collisionBox.draw(renderTarget, renderStates);
     }
 
     public String toString() {

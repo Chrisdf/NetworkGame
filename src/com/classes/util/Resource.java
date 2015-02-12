@@ -24,20 +24,17 @@ public class Resource {
         fontMap = new HashMap<String, Font>();
     }
 
-    /*
-    Loads the texture from an input stream and adds it to the texture map
-     */
-    public void addTexture(String name) {
+    public void addTexture(String name, String extension) {
 
         Texture oneToAdd = new Texture();
         //InputStream stream = Resource.class.getResourceAsStream("resources/images/" + name + ".jpg");
 
         try {
             //oneToAdd.loadFromStream(stream);
-            oneToAdd.loadFromFile(Paths.get("src/com/classes/resources/images/" + name + ".jpg"));
+            oneToAdd.loadFromFile(Paths.get("src/com/classes/resources/images/" + name + "." + extension));
 
         } catch (Exception e) {
-            System.out.print("Texture " + name + "failed to load as a jpg");
+            System.out.print("Texture " + name + "failed to load as extension " + extension);
             e.printStackTrace();
         }
 
@@ -49,14 +46,14 @@ public class Resource {
         return textureMap.get(textureName);
     }
 
-    public void addFont(String name) {
+    public void addFont(String name, String extension) {
 
         Font oneToAdd = new Font();
 
         try {
-            oneToAdd.loadFromFile(Paths.get("src/com/classes/resources/fonts/" + name + ".ttf"));
+            oneToAdd.loadFromFile(Paths.get("src/com/classes/resources/fonts/" + name + "." + extension));
         } catch (Exception e) {
-            System.out.print("Font " + name + "did not load properly");
+            System.out.print("Font " + name + "did not load properly" + "as extension " + extension);
             e.printStackTrace();
         }
 
