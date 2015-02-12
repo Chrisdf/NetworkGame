@@ -16,6 +16,8 @@ public class Entity implements Drawable {
 
     public Vector2f acceleration;
 
+    public double angleFromNorth;
+
     public Sprite sprite;
 
     public Texture spriteTexture;
@@ -33,6 +35,7 @@ public class Entity implements Drawable {
         velocity = new Vector2f(0, 0);
         acceleration = new Vector2f(0, 0);
         maxVelocity = new Vector2f(5, 5);
+        angleFromNorth = Math.atan2(velocity.y, velocity.x);
 
         spriteTexture = loader.getTexture(textureName);
         sprite = new Sprite(spriteTexture);
@@ -84,6 +87,8 @@ public class Entity implements Drawable {
         gamePosition = Vector2f.add(gamePosition, velocity);
         sprite.setPosition(gamePosition);
 
+        angleFromNorth = Math.atan2(velocity.y, velocity.x) + (Math.PI*3)/2;
+
         setCollisionBox();
 
         applyFriction();
@@ -129,9 +134,10 @@ public class Entity implements Drawable {
     }
 
     public String toString() {
-        return "Player : " +
-                "Game position - " + gamePosition.x + "," + gamePosition.y +
-                "/ Acceleration:" + acceleration.x +"," + acceleration.y +
-                "/ Velocity:" + velocity.x + "," + velocity.y;
+        return "Entity : " +
+        //        "Game position - " + gamePosition.x + "," + gamePosition.y +
+        //        "/ Acceleration:" + acceleration.x +"," + acceleration.y +
+                "/ Velocity:" + velocity.x + "," + velocity.y +
+                "/ Angle:" + Math.toDegrees(angleFromNorth);
     }
 }

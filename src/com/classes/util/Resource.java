@@ -22,6 +22,15 @@ public class Resource {
 
         textureMap = new HashMap<String, Texture>();
         fontMap = new HashMap<String, Font>();
+
+        addResources();
+    }
+
+    public void addResources() {
+        addTexture("player", "jpg");
+        addTexture("back", "jpg");
+        addTexture("yoda", "png");
+        addFont("heav", "ttf");
     }
 
     public void addTexture(String name, String extension) {

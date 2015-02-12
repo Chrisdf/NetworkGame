@@ -44,12 +44,10 @@ public class Main {
         gameView.zoom(viewZoom);
 
         loader = new Resource();
-        loader.addTexture("player", "jpg");
-        loader.addTexture("back", "jpg");
-        loader.addFont("heav", "jpg");
+
 
         fps = new FPS(loader);
-        player = new Player(loader, "player", new Vector2f(0,0), gameView);
+        player = new Player(loader, "yoda", new Vector2f(0,0), gameView, 10);
 
         entityList = new ArrayList<Entity>();
         entityList.add(new NPC(loader, "back", new Vector2f(0,0)));
@@ -136,16 +134,16 @@ public class Main {
                     switch (event.asKeyEvent().key) {
 
                         case D:
-                            player.stopMovementHorizontally(Direction.RIGHT);
+                            player.stopMovementHorizontally(Direction.EAST);
                             break;
                         case A:
-                            player.stopMovementHorizontally(Direction.LEFT);
+                            player.stopMovementHorizontally(Direction.WEST);
                             break;
                         case S:
-                            player.stopMovementVertically(Direction.DOWN);
+                            player.stopMovementVertically(Direction.SOUTH);
                             break;
                         case W:
-                            player.stopMovementVertically(Direction.UP);
+                            player.stopMovementVertically(Direction.NORTH);
                             break;
                     }
                     break;
