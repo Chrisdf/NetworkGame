@@ -154,9 +154,9 @@ public class Entity implements Drawable {
 
     public String toString() {
         return "Entity : " +
-                //        "Game position - " + gamePosition.x + "," + gamePosition.y +
-                //        "/ Acceleration:" + acceleration.x +"," + acceleration.y +
-                "/ Velocity:" + velocity.x + "," + velocity.y +
+                "Game position - " + gamePosition.x + "," + gamePosition.y +
+                // "/ Acceleration:" + acceleration.x +"," + acceleration.y +
+                // "/ Velocity:" + velocity.x + "," + velocity.y +
                 "/ Angle:" + Math.toDegrees(angleFromNorth);
     }
 

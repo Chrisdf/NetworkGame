@@ -10,6 +10,8 @@ import org.jsfml.system.Vector2i;
  */
 public class Tile implements Drawable {
 
+    private Room.Theme theme;
+
     private Vector2i tileDimensions;
 
     private IntRect tileArea;
@@ -18,20 +20,58 @@ public class Tile implements Drawable {
 
     private Sprite tileSprite;
 
+    private Vector2i positionInRoom;
+
+    private Tile[][] roomTiles;
+
     private float tileFriction;
 
     private float tileDamage;
 
-    public Tile(String textureName, Vector2i tileDimensions, Vector2f gamePosition) {
+    public Tile(Room.Theme theme, Vector2i tileDimensions, Vector2f gamePosition, Vector2i positionInRoom, Tile[][] roomTiles) {
 
         this.tileDimensions = tileDimensions;
-        spriteTexture = Main.getLoader().getTexture(textureName);
-        spriteTexture.setRepeated(true);
+        this.theme = theme;
+        this.positionInRoom = positionInRoom;
+        this.roomTiles = roomTiles;
+        spriteTexture = Main.getLoader().getTexture(getTileTextureName());
         tileArea = new IntRect(new Vector2i(gamePosition), tileDimensions);
         tileSprite = new Sprite(spriteTexture);
         tileSprite.setPosition(gamePosition);
         tileSprite.setScale(new Vector2f(0.5f, 0.5f));
         tileFriction = 0.4f;
+
+    }
+
+    private String getTileTextureName() {
+
+        switch(theme){
+
+            case STONE:
+                if(positionInRoom.x == roomTiles.length - 1) {
+                    if(positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
+                        return "Stone_BottomRightCorner";
+                    else
+                        if(positionInRoom.y == 0)
+                            return "Stone_BottomLeftCorner";
+                        else
+                            return "Stone_RightWall";
+                }
+
+                if(positionInRoom.x == 0) {
+                    if(positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
+                        return "Stone_BottomRightCorner";
+                    else if(positionInRoom.y == 0)
+                        return "Stone_TopLeftCorner";
+                    else
+                        return "Stone_LeftWall";
+                }
+
+                return "Stone";
+
+        }
+
+        return "Stone";
 
     }
 
@@ -47,4 +87,5 @@ public class Tile implements Drawable {
 
         tileSprite.draw(renderTarget, renderStates);
     }
+
 }
