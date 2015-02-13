@@ -23,7 +23,7 @@ public class Main {
 
     private final View gameView;
 
-    private final float viewZoom = 5f;
+    private final float viewZoom = 1f;
 
     private FPS fps;
 
