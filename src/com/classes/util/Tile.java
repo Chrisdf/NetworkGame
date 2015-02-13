@@ -45,33 +45,67 @@ public class Tile implements Drawable {
 
     private String getTileTextureName() {
 
-        switch(theme){
+        switch (theme) {
 
             case STONE:
-                if(positionInRoom.x == roomTiles.length - 1) {
-                    if(positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
+
+                if (positionInRoom.x == roomTiles.length - 1) {
+                    if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
                         return "Stone_BottomRightCorner";
+                    else if (positionInRoom.y == 0)
+                        return "Stone_TopRightCorner";
                     else
-                        if(positionInRoom.y == 0)
-                            return "Stone_BottomLeftCorner";
-                        else
-                            return "Stone_RightWall";
+                        return "Stone_RightWall";
                 }
 
-                if(positionInRoom.x == 0) {
-                    if(positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
-                        return "Stone_BottomRightCorner";
-                    else if(positionInRoom.y == 0)
+                if (positionInRoom.x == 0) {
+                    if (positionInRoom.y == 0)
                         return "Stone_TopLeftCorner";
+                    else if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
+                        return "Stone_BottomLeftCorner";
                     else
                         return "Stone_LeftWall";
                 }
 
+                if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
+                    return "Stone_BottomWall";
+
+                if (positionInRoom.y == 0)
+                    return "Stone_TopWall";
+
                 return "Stone";
 
+
+            case GRASS:
+
+                if (positionInRoom.x == roomTiles.length - 1) {
+                    if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
+                        return "Grass_BottomRightCorner";
+                    else if (positionInRoom.y == 0)
+                        return "Grass_TopRightCorner";
+                    else
+                        return "Grass_RightWall";
+                }
+
+                if (positionInRoom.x == 0) {
+                    if (positionInRoom.y == 0)
+                        return "Grass_TopLeftCorner";
+                    else if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
+                        return "Grass_BottomLeftCorner";
+                    else
+                        return "Grass_LeftWall";
+                }
+
+                if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
+                    return "Grass_BottomWall";
+
+                if (positionInRoom.y == 0)
+                    return "Grass_TopWall";
+
+                return "Grass";
         }
 
-        return "Stone";
+        return "Grass";
 
     }
 

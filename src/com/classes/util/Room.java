@@ -30,7 +30,7 @@ public class Room implements Drawable {
 
     public Room(Vector2i roomDimensions, Vector2f topLeftCoords, String tileTexture) {
 
-        tileDimensions = new Vector2i(129,129);
+        tileDimensions = new Vector2i(129, 129);
         tileScale = new Vector2i(2, 2);
         tileDimensions = Vector2i.componentwiseDiv(tileDimensions, tileScale);
         this.roomDimensions = roomDimensions;
@@ -39,8 +39,8 @@ public class Room implements Drawable {
         centerPoint = getRoomCenter();
         roomTiles = new Tile[roomDimensions.x][roomDimensions.y];
 
-        for(int i = 0; i<roomTiles.length; i++)
-            for(int d = 0; d<roomTiles[i].length; d++) {
+        for (int i = 0; i < roomTiles.length; i++)
+            for (int d = 0; d < roomTiles[i].length; d++) {
 
                 Vector2f startingPosition = topLeftCoords;
 
@@ -65,28 +65,28 @@ public class Room implements Drawable {
 
     public Theme getRandomTheme() {
 
-        int themePick = (int)(Math.random() * 2) + 1;
+        int themePick = (int) (Math.random() * 2) + 1;
 
-        switch (themePick){
+        switch (themePick) {
 
             case 1:
-                return Theme.STONE;
+                return Theme.GRASS;
             case 2:
                 return Theme.GRASS;
             default:
-                return Theme.STONE;
+                return Theme.GRASS;
         }
     }
 
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates) {
 
-        for(Tile[] horizontal: roomTiles)
-            for(Tile current: horizontal)
+        for (Tile[] horizontal : roomTiles)
+            for (Tile current : horizontal)
                 current.draw(renderTarget, renderStates);
     }
 
-    public FloatRect getCornerCoords(){
+    public FloatRect getCornerCoords() {
 
         return cornerCoords;
     }
