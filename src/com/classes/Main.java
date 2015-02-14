@@ -115,6 +115,7 @@ public class Main {
                     break;
 
                 case KEY_PRESSED:
+
                     switch (event.asKeyEvent().key) {
 
                         case D:
@@ -151,6 +152,9 @@ public class Main {
                             break;
                         case LSHIFT:
                             player.addInput("LSHIFT_RELEASED");
+                            break;
+                        case LCONTROL:
+                            player.addInput("LCONTROL_RELEASED");
                     }
                     break;
 

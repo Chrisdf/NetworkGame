@@ -27,11 +27,26 @@ public class Room implements Drawable {
 
     public Room(Vector2i roomDimensionsInTiles, Vector2f topLeftCoords, Theme theme) {
 
-        tileDimensions = new Vector2i(100, 100);
-        tileScale = new Vector2i(2, 2);
+        /**
+         * tileDimensions must be the same size as the tile texture size
+         *
+         * tileScale is the ratio to divide the texture size to make it uniform with all other tiles,
+         * preferred scale is whatever it takes to get the tile size to 100x100
+         */
+        tileDimensions = new Vector2i(400, 400);
+        tileScale = new Vector2i(8, 8);
         tileDimensions = Vector2i.componentwiseDiv(tileDimensions, tileScale);
 
+        /**
+         * Get pixel room dimensions by multiplying the number of tiles in the room
+         * by the tile size of each tile
+         */
         roomDimensions = Vector2i.componentwiseMul(roomDimensionsInTiles, tileDimensions);
+
+        /**
+         * Set position of the room outline rectangle as the top left point and the
+         * bottom right point
+         */
         this.topLeftCoords = topLeftCoords;
         cornerCoords = new FloatRect(topLeftCoords, new Vector2f(roomDimensions));
 
@@ -42,15 +57,22 @@ public class Room implements Drawable {
         for (int i = 0; i < roomTiles.length; i++)
             for (int d = 0; d < roomTiles[i].length; d++) {
 
+                //Position of the top left tile in the room
                 Vector2f startingPosition = topLeftCoords;
 
+                /**
+                 * Set each following tile's position relative to the ones
+                 * before it in the array
+                 */
                 float spritePositionX = startingPosition.x + (i * tileDimensions.x);
                 float spritePositionY = startingPosition.y + (d * tileDimensions.y);
                 Vector2f spritePosition = new Vector2f(spritePositionX, spritePositionY);
                 spritePosition = VectorFunctions.round(spritePosition);
+
+                //Mark the position of the tile in the tile matrix
                 Vector2i positionInRoom = new Vector2i(i, d);
 
-                roomTiles[i][d] = new Tile(theme, tileDimensions, spritePosition, positionInRoom, roomTiles);
+                roomTiles[i][d] = new Tile(theme, tileDimensions, spritePosition, positionInRoom, roomTiles, tileScale);
 
             }
     }
@@ -70,18 +92,6 @@ public class Room implements Drawable {
         for (Tile[] horizontal : roomTiles)
             for (Tile current : horizontal)
                 current.draw(renderTarget, renderStates);
-
-        RectangleShape outline = new RectangleShape();
-        outline.setPosition(cornerCoords.left, cornerCoords.top);
-        outline.setSize(new Vector2f(cornerCoords.width, cornerCoords.height));
-        outline.setFillColor(Color.CYAN);
-        outline.draw(renderTarget, renderStates);
-
-        RectangleShape centerOutline = new RectangleShape();
-        centerOutline.setPosition(getRoomCenter());
-        centerOutline.setSize(new Vector2f(5, 5));
-        centerOutline.setFillColor(Color.GREEN);
-        centerOutline.draw(renderTarget, renderStates);
     }
 
     public FloatRect getCornerCoords() {

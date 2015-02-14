@@ -18,6 +18,7 @@ import java.util.Set;
 public class Player extends AnimatedEntity {
 
     View gameView;
+    float gameViewZoom;
     Set<String> inputList;
 
 
@@ -25,6 +26,7 @@ public class Player extends AnimatedEntity {
 
         super(textureName, gamePosition, framesPerAnimation);
         this.gameView = gameView;
+        gameViewZoom = 1f;
         super.maxVelocity = new Vector2f(10, 10);
         inputList = new HashSet<String>();
     }
@@ -115,7 +117,7 @@ public class Player extends AnimatedEntity {
             maxVelocity = new Vector2f(10,10);
         }
 
-        if(inputList.contains("LCONTROL"))
+        if (inputList.contains("LCONTROL_RELEASED"))
             toggleViewZoom();
 
     }
@@ -127,6 +129,9 @@ public class Player extends AnimatedEntity {
 
     private void toggleViewZoom() {
 
+        gameViewZoom = gameViewZoom + 0.5f;
+
+        gameView.zoom(gameViewZoom);
     }
 
 }

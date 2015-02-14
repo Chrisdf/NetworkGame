@@ -28,17 +28,25 @@ public class Tile implements Drawable {
 
     private float tileDamage;
 
-    public Tile(Theme theme, Vector2i tileDimensions, Vector2f gamePosition, Vector2i positionInRoom, Tile[][] roomTiles) {
+    public Tile(Theme theme, Vector2i tileDimensions, Vector2f gamePosition, Vector2i positionInRoom, Tile[][] roomTiles, Vector2i tileScale) {
 
         this.tileDimensions = tileDimensions;
         this.theme = theme;
         this.positionInRoom = positionInRoom;
         this.roomTiles = roomTiles;
+
+        //Load the texture from resources based on theme type
         spriteTexture = Main.getLoader().getTexture(getTileTextureName());
+
+        //Mark the tile collision box as the pixel area of the tile
         tileArea = new IntRect(new Vector2i(gamePosition), tileDimensions);
+
         tileSprite = new Sprite(spriteTexture);
         tileSprite.setPosition(gamePosition);
-        tileSprite.setScale(new Vector2f(0.5f, 0.5f));
+
+        //Take inverse of tile scale to get desired tile size, preferably 100x100 after scaling
+        tileSprite.setScale(Vector2f.componentwiseDiv(new Vector2f(1, 1), new Vector2f(tileScale)));
+
         tileFriction = 0.4f;
 
     }

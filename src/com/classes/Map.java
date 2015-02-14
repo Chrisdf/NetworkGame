@@ -38,7 +38,6 @@ public class Map implements Drawable {
         while (currentNumOfDungeons < numOfDungeons) {
 
             Vector2i roomDimensionsInTiles = VectorFunctions.randomNum(new Vector2i(5, 20), new Vector2i(5, 20));
-            System.out.println(roomDimensionsInTiles);
 
             Vector2i mapBoundsX = new Vector2i(mapDimensions.left, mapDimensions.width);
             Vector2i mapBoundsY = new Vector2i(mapDimensions.top, mapDimensions.height);
