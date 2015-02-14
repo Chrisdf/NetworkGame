@@ -23,8 +23,6 @@ public class Main {
 
     private final View gameView;
 
-    private final float viewZoom = 1f;
-
     private FPS fps;
 
     private static Resource loader;
@@ -46,11 +44,10 @@ public class Main {
         defaultView = renderWindow.getDefaultView();
 
         gameView = new View(defaultView.getCenter(), defaultView.getSize());
-        gameView.zoom(viewZoom);
 
         loader = new Resource();
 
-        currentMap = new Map(new IntRect(-400, -400, 800, 800));
+        currentMap = new Map(new IntRect(-800, -800, 800, 800));
 
         fps = new FPS();
         player = new Player("yoda", new Vector2f(0, 0), gameView, 5);
@@ -156,7 +153,9 @@ public class Main {
                             player.addInput("LSHIFT_RELEASED");
                     }
                     break;
+
             }
+
         }
 
     }

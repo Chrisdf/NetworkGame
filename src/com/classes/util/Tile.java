@@ -10,7 +10,7 @@ import org.jsfml.system.Vector2i;
  */
 public class Tile implements Drawable {
 
-    private Room.Theme theme;
+    private Theme theme;
 
     private Vector2i tileDimensions;
 
@@ -28,7 +28,7 @@ public class Tile implements Drawable {
 
     private float tileDamage;
 
-    public Tile(Room.Theme theme, Vector2i tileDimensions, Vector2f gamePosition, Vector2i positionInRoom, Tile[][] roomTiles) {
+    public Tile(Theme theme, Vector2i tileDimensions, Vector2f gamePosition, Vector2i positionInRoom, Tile[][] roomTiles) {
 
         this.tileDimensions = tileDimensions;
         this.theme = theme;
@@ -47,66 +47,15 @@ public class Tile implements Drawable {
 
         switch (theme) {
 
-            case STONE:
-
-                if (positionInRoom.x == roomTiles.length - 1) {
-                    if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
-                        return "Stone_BottomRightCorner";
-                    else if (positionInRoom.y == 0)
-                        return "Stone_TopRightCorner";
-                    else
-                        return "Stone_RightWall";
-                }
-
-                if (positionInRoom.x == 0) {
-                    if (positionInRoom.y == 0)
-                        return "Stone_TopLeftCorner";
-                    else if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
-                        return "Stone_BottomLeftCorner";
-                    else
-                        return "Stone_LeftWall";
-                }
-
-                if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
-                    return "Stone_BottomWall";
-
-                if (positionInRoom.y == 0)
-                    return "Stone_TopWall";
-
-                return "Stone";
-
-
             case GRASS:
-
-                if (positionInRoom.x == roomTiles.length - 1) {
-                    if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
-                        return "Grass_BottomRightCorner";
-                    else if (positionInRoom.y == 0)
-                        return "Grass_TopRightCorner";
-                    else
-                        return "Grass_RightWall";
-                }
-
-                if (positionInRoom.x == 0) {
-                    if (positionInRoom.y == 0)
-                        return "Grass_TopLeftCorner";
-                    else if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
-                        return "Grass_BottomLeftCorner";
-                    else
-                        return "Grass_LeftWall";
-                }
-
-                if (positionInRoom.y == roomTiles[positionInRoom.x].length - 1)
-                    return "Grass_BottomWall";
-
-                if (positionInRoom.y == 0)
-                    return "Grass_TopWall";
-
                 return "Grass";
+            case STONELIGHT:
+                return "StoneLight";
+            case STONEDARK:
+                return "StoneDark";
         }
 
-        return "Grass";
-
+        return "StoneDark";
     }
 
     public Vector2i getTileDimensions() {

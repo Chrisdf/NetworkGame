@@ -115,11 +115,18 @@ public class Player extends AnimatedEntity {
             maxVelocity = new Vector2f(10,10);
         }
 
+        if(inputList.contains("LCONTROL"))
+            toggleViewZoom();
+
     }
 
     public void addInput(String input) {
 
         inputList.add(input);
+    }
+
+    private void toggleViewZoom() {
+
     }
 
 }

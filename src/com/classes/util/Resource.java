@@ -29,14 +29,9 @@ public class Resource {
     public void addResources() {
         addTexture("yoda", "png");
         addFont("heav", "ttf");
-        addTexture("Grass_BottomLeftCorner", "png");
-        addTexture("Grass_BottomRightCorner", "png");
-        addTexture("Grass_TopLeftCorner", "png");
-        addTexture("Grass_TopRightCorner", "png");
-        addTexture("Grass_BottomWall", "png");
-        addTexture("Grass_LeftWall", "png");
-        addTexture("Grass_RightWall", "png");
-        addTexture("Grass_TopWall", "png");
+        addTexture("Grass", "jpg");
+        addTexture("StoneDark", "jpg");
+        addTexture("StoneLight", "jpg");
 
     }
 

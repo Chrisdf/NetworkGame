@@ -1,9 +1,6 @@
 package com.classes.util;
 
-import org.jsfml.graphics.Drawable;
-import org.jsfml.graphics.FloatRect;
-import org.jsfml.graphics.RenderStates;
-import org.jsfml.graphics.RenderTarget;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
@@ -26,18 +23,21 @@ public class Room implements Drawable {
 
     private Vector2f centerPoint;
 
-    public enum Theme {STONE, GRASS}
+    private Theme theme;
 
-    public Room(Vector2i roomDimensions, Vector2f topLeftCoords, String tileTexture) {
+    public Room(Vector2i roomDimensionsInTiles, Vector2f topLeftCoords, Theme theme) {
 
-        tileDimensions = new Vector2i(129, 129);
+        tileDimensions = new Vector2i(100, 100);
         tileScale = new Vector2i(2, 2);
         tileDimensions = Vector2i.componentwiseDiv(tileDimensions, tileScale);
-        this.roomDimensions = roomDimensions;
+
+        roomDimensions = Vector2i.componentwiseMul(roomDimensionsInTiles, tileDimensions);
         this.topLeftCoords = topLeftCoords;
-        cornerCoords = new FloatRect(topLeftCoords, new Vector2f(this.roomDimensions));
+        cornerCoords = new FloatRect(topLeftCoords, new Vector2f(roomDimensions));
+
         centerPoint = getRoomCenter();
-        roomTiles = new Tile[roomDimensions.x][roomDimensions.y];
+
+        roomTiles = new Tile[roomDimensionsInTiles.x][roomDimensionsInTiles.y];
 
         for (int i = 0; i < roomTiles.length; i++)
             for (int d = 0; d < roomTiles[i].length; d++) {
@@ -50,7 +50,7 @@ public class Room implements Drawable {
                 spritePosition = VectorFunctions.round(spritePosition);
                 Vector2i positionInRoom = new Vector2i(i, d);
 
-                roomTiles[i][d] = new Tile(getRandomTheme(), tileDimensions, spritePosition, positionInRoom, roomTiles);
+                roomTiles[i][d] = new Tile(theme, tileDimensions, spritePosition, positionInRoom, roomTiles);
 
             }
     }
@@ -63,20 +63,6 @@ public class Room implements Drawable {
         return new Vector2f(centerX, centerY);
     }
 
-    public Theme getRandomTheme() {
-
-        int themePick = (int) (Math.random() * 2) + 1;
-
-        switch (themePick) {
-
-            case 1:
-                return Theme.GRASS;
-            case 2:
-                return Theme.GRASS;
-            default:
-                return Theme.GRASS;
-        }
-    }
 
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates) {
@@ -84,10 +70,29 @@ public class Room implements Drawable {
         for (Tile[] horizontal : roomTiles)
             for (Tile current : horizontal)
                 current.draw(renderTarget, renderStates);
+
+        RectangleShape outline = new RectangleShape();
+        outline.setPosition(cornerCoords.left, cornerCoords.top);
+        outline.setSize(new Vector2f(cornerCoords.width, cornerCoords.height));
+        outline.setFillColor(Color.CYAN);
+        outline.draw(renderTarget, renderStates);
+
+        RectangleShape centerOutline = new RectangleShape();
+        centerOutline.setPosition(getRoomCenter());
+        centerOutline.setSize(new Vector2f(5, 5));
+        centerOutline.setFillColor(Color.GREEN);
+        centerOutline.draw(renderTarget, renderStates);
     }
 
     public FloatRect getCornerCoords() {
 
         return cornerCoords;
     }
+
+    public Theme getTheme() {
+
+        return theme;
+    }
+
+
 }
