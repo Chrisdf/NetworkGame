@@ -3,7 +3,6 @@ package com.classes;
 import com.classes.util.AnimatedEntity;
 import com.classes.util.Direction;
 import com.classes.util.FloatFunctions;
-import com.classes.util.Resource;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
@@ -58,8 +57,8 @@ public class Player extends AnimatedEntity {
         inputList.clear();
 
         //If the player is not moving, do not animate
-        if(FloatFunctions.isEqual(velocity.x, 0))
-            if(FloatFunctions.isEqual(velocity.y, 0))
+        if (FloatFunctions.isEqual(velocity.x, 0))
+            if (FloatFunctions.isEqual(velocity.y, 0))
                 isAnimating = false;
     }
 
@@ -96,30 +95,30 @@ public class Player extends AnimatedEntity {
             maxVelocity = Vector2f.mul(maxVelocity, 2f);
         }
 
-        if(inputList.contains("D_RELEASED")) {
+        if (inputList.contains("D_RELEASED")) {
 
             stopMovementHorizontally(Direction.EAST);
         }
 
-        if(inputList.contains("A_RELEASED")) {
+        if (inputList.contains("A_RELEASED")) {
 
             stopMovementHorizontally(Direction.WEST);
         }
 
-        if(inputList.contains("S_RELEASED")) {
+        if (inputList.contains("S_RELEASED")) {
 
             stopMovementVertically(Direction.SOUTH);
         }
 
-        if(inputList.contains("W_RELEASED")) {
+        if (inputList.contains("W_RELEASED")) {
 
             stopMovementVertically(Direction.NORTH);
         }
 
-        if(inputList.contains("LSHIFT_RELEASED")) {
+        if (inputList.contains("LSHIFT_RELEASED")) {
 
             setFramesPerAnimation(5);
-            maxVelocity = new Vector2f(10,10);
+            maxVelocity = new Vector2f(10, 10);
         }
 
         if (inputList.contains("LCONTROL_RELEASED"))

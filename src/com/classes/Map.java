@@ -1,6 +1,9 @@
 package com.classes;
 
-import com.classes.util.*;
+import com.classes.util.Entity;
+import com.classes.util.Room;
+import com.classes.util.Theme;
+import com.classes.util.VectorFunctions;
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderStates;
@@ -9,13 +12,14 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Chris on 2/12/2015.
  */
 public class Map implements Drawable {
 
-    private ArrayList<Player> playerList;
+    private java.util.Map<String, Player> playerList;
 
     private ArrayList<Entity> entityList;
 
@@ -29,7 +33,7 @@ public class Map implements Drawable {
 
     public Map(IntRect mapDimensions) {
 
-        playerList = new ArrayList<Player>();
+        playerList = new HashMap<String, Player>();
         entityList = new ArrayList<Entity>();
         roomList = new ArrayList<Room>();
 
@@ -71,23 +75,28 @@ public class Map implements Drawable {
         boolean intersects = false;
 
         for (Room room : roomList) {
-            if(room != null && currentRoom != null)
-            if (room.getCornerCoords().intersection(currentRoom.getCornerCoords()) != null)
-                intersects = true;
+            if (room != null && currentRoom != null)
+                if (room.getCornerCoords().intersection(currentRoom.getCornerCoords()) != null)
+                    intersects = true;
         }
 
         return intersects;
     }
 
-    public void addPlayer(Player playerToAdd) {
+    public void addPlayer(String name, Player playerToAdd) {
 
-        playerList.add(playerToAdd);
+        playerList.put(name, playerToAdd);
+    }
+
+    public void addPlayerInput(String username, String keyPressed) {
+
+        playerList.get(username).addInput(keyPressed);
     }
 
     public void update() {
 
-        for (Player currentPlayer : playerList) {
-            currentPlayer.update();
+        for (String key : playerList.keySet()) {
+            playerList.get(key).update();
         }
 
         for (Entity entity : entityList) {
@@ -107,8 +116,8 @@ public class Map implements Drawable {
             entity.draw(renderTarget, renderStates);
         }
 
-        for (Player currentPlayer : playerList) {
-            currentPlayer.draw(renderTarget, renderStates);
+        for (String key : playerList.keySet()) {
+            playerList.get(key).draw(renderTarget, renderStates);
         }
     }
 }

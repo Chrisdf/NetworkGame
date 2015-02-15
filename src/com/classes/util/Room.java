@@ -1,6 +1,9 @@
 package com.classes.util;
 
-import org.jsfml.graphics.*;
+import org.jsfml.graphics.Drawable;
+import org.jsfml.graphics.FloatRect;
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 

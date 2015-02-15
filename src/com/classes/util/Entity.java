@@ -1,6 +1,7 @@
 package com.classes.util;
 
 import com.classes.Main;
+import com.classes.Map;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
@@ -10,6 +11,8 @@ import org.jsfml.system.Vector2f;
  * Created by Chris on 2/5/2015.
  */
 public class Entity implements Drawable {
+
+    protected Map currentMap;
 
     protected Vector2f velocity;
 

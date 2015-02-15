@@ -1,7 +1,6 @@
 package com.classes;
 
 import com.classes.ui.FPS;
-import com.classes.util.Entity;
 import com.classes.util.Resource;
 import com.classes.util.UIElement;
 import org.jsfml.graphics.ConstView;
@@ -13,6 +12,7 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Main {
@@ -29,9 +29,15 @@ public class Main {
 
     private ArrayList<UIElement> uiElements;
 
+    private static String username;
+
     private Map currentMap;
 
+    private Player mainPlayer;
+
     private Main() {
+
+        username = JOptionPane.showInputDialog("Enter a username:");
 
         renderWindow = new RenderWindow();
         renderWindow.create(new VideoMode(1280, 720), "NetworkGame");
@@ -46,7 +52,10 @@ public class Main {
         currentMap = new Map(new IntRect(-1000, -1000, 1000, 1000));
 
         fps = new FPS();
-        currentMap.addPlayer(new Player("Chris", "yoda", new Vector2f(0, 0), gameView, 5));
+
+        mainPlayer = new Player(username, "yoda", new Vector2f(0, 0), gameView, 5);
+
+        currentMap.addPlayer(username, mainPlayer);
 
 
         uiElements = new ArrayList<UIElement>();
@@ -114,19 +123,19 @@ public class Main {
                     switch (event.asKeyEvent().key) {
 
                         case D:
-                            player.addInput("D");
+                            currentMap.addPlayerInput(username, "D");
                             break;
                         case A:
-                            player.addInput("A");
+                            currentMap.addPlayerInput(username, "A");
                             break;
                         case S:
-                            player.addInput("S");
+                            currentMap.addPlayerInput(username, "S");
                             break;
                         case W:
-                            player.addInput("W");
+                            currentMap.addPlayerInput(username, "W");
                             break;
                         case LSHIFT:
-                            player.addInput("LSHIFT");
+                            currentMap.addPlayerInput(username, "LSHIFT");
                     }
                     break;
 
@@ -134,22 +143,22 @@ public class Main {
                     switch (event.asKeyEvent().key) {
 
                         case D:
-                            player.addInput("D_RELEASED");
+                            currentMap.addPlayerInput(username, "D_RELEASED");
                             break;
                         case A:
-                            player.addInput("A_RELEASED");
+                            currentMap.addPlayerInput(username, "A_RELEASED");
                             break;
                         case S:
-                            player.addInput("S_RELEASED");
+                            currentMap.addPlayerInput(username, "S_RELEASED");
                             break;
                         case W:
-                            player.addInput("W_RELEASED");
+                            currentMap.addPlayerInput(username, "W_RELEASED");
                             break;
                         case LSHIFT:
-                            player.addInput("LSHIFT_RELEASED");
+                            currentMap.addPlayerInput(username, "LSHIFT_RELEASED");
                             break;
                         case LCONTROL:
-                            player.addInput("LCONTROL_RELEASED");
+                            currentMap.addPlayerInput(username, "LCONRTROL_RELEASED");
                     }
                     break;
 
@@ -183,4 +192,10 @@ public class Main {
     public static Resource getLoader() {
         return loader;
     }
+
+
+    public static String getUsername() {
+        return username;
+    }
+
 }
