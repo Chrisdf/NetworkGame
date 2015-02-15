@@ -17,14 +17,19 @@ import java.util.Set;
  */
 public class Player extends AnimatedEntity {
 
+    String playerName;
+
     View gameView;
+
     float gameViewZoom;
+
     Set<String> inputList;
 
 
-    public Player(String textureName, Vector2f gamePosition, View gameView, int framesPerAnimation) {
+    public Player(String playerName, String textureName, Vector2f gamePosition, View gameView, int framesPerAnimation) {
 
         super(textureName, gamePosition, framesPerAnimation);
+        this.playerName = playerName;
         this.gameView = gameView;
         gameViewZoom = 1f;
         super.maxVelocity = new Vector2f(10, 10);

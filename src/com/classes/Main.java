@@ -27,13 +27,9 @@ public class Main {
 
     private static Resource loader;
 
-    private ArrayList<Entity> entityList;
-
     private ArrayList<UIElement> uiElements;
 
     private Map currentMap;
-
-    private final Player player;
 
     private Main() {
 
@@ -47,12 +43,11 @@ public class Main {
 
         loader = new Resource();
 
-        currentMap = new Map(new IntRect(-800, -800, 800, 800));
+        currentMap = new Map(new IntRect(-1000, -1000, 1000, 1000));
 
         fps = new FPS();
-        player = new Player("yoda", new Vector2f(0, 0), gameView, 5);
+        currentMap.addPlayer(new Player("Chris", "yoda", new Vector2f(0, 0), gameView, 5));
 
-        entityList = new ArrayList<Entity>();
 
         uiElements = new ArrayList<UIElement>();
         uiElements.add(fps);
@@ -166,29 +161,16 @@ public class Main {
 
     private void update() {
 
-        player.update();
-
-        for (Entity entity : entityList) {
-            entity.update();
-        }
+        currentMap.update();
     }
 
     private void draw(float deltaTime) {
-
 
         renderWindow.clear();
 
         renderWindow.setView(gameView);
 
         renderWindow.draw(currentMap);
-
-        for (Entity entity : entityList) {
-            entity.interpolate(deltaTime);
-            renderWindow.draw(entity);
-        }
-
-        renderWindow.draw(player);
-
 
         renderWindow.setView(defaultView);
 

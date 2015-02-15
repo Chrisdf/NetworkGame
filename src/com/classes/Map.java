@@ -1,8 +1,6 @@
 package com.classes;
 
-import com.classes.util.Room;
-import com.classes.util.Theme;
-import com.classes.util.VectorFunctions;
+import com.classes.util.*;
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderStates;
@@ -17,16 +15,22 @@ import java.util.ArrayList;
  */
 public class Map implements Drawable {
 
-    ArrayList<Room> roomList;
+    private ArrayList<Player> playerList;
 
-    int varianceInNumOfDungeons;
+    private ArrayList<Entity> entityList;
 
-    int minNumOfDungeons;
+    private ArrayList<Room> roomList;
 
-    int numOfDungeons;
+    private int varianceInNumOfDungeons;
+
+    private int minNumOfDungeons;
+
+    private int numOfDungeons;
 
     public Map(IntRect mapDimensions) {
 
+        playerList = new ArrayList<Player>();
+        entityList = new ArrayList<Entity>();
         roomList = new ArrayList<Room>();
 
         minNumOfDungeons = 4;
@@ -75,10 +79,36 @@ public class Map implements Drawable {
         return intersects;
     }
 
+    public void addPlayer(Player playerToAdd) {
+
+        playerList.add(playerToAdd);
+    }
+
+    public void update() {
+
+        for (Player currentPlayer : playerList) {
+            currentPlayer.update();
+        }
+
+        for (Entity entity : entityList) {
+            entity.update();
+        }
+
+
+    }
+
     public void draw(RenderTarget renderTarget, RenderStates renderStates) {
 
         for (Room current : roomList) {
             current.draw(renderTarget, renderStates);
+        }
+
+        for (Entity entity : entityList) {
+            entity.draw(renderTarget, renderStates);
+        }
+
+        for (Player currentPlayer : playerList) {
+            currentPlayer.draw(renderTarget, renderStates);
         }
     }
 }
