@@ -1,6 +1,6 @@
 package com.classes.util;
 
-import com.classes.Main;
+import com.classes.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
@@ -36,7 +36,7 @@ public class Tile implements Drawable {
         this.roomTiles = roomTiles;
 
         //Load the texture from resources based on theme type
-        spriteTexture = Main.getLoader().getTexture(getTileTextureName());
+        spriteTexture = Game.getLoader().getTexture(getTileTextureName());
 
         //Mark the tile collision box as the pixel area of the tile
         tileArea = new IntRect(new Vector2i(gamePosition), tileDimensions);

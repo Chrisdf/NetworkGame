@@ -1,6 +1,6 @@
 package com.classes.util;
 
-import com.classes.Main;
+import com.classes.Game;
 import com.classes.Map;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
@@ -44,7 +44,7 @@ public class Entity implements Drawable {
         angleFromNorth = Math.atan2(velocity.y, velocity.x);
         angleDisplay = new RectangleShape();
 
-        spriteTexture = Main.getLoader().getTexture(textureName);
+        spriteTexture = Game.getLoader().getTexture(textureName);
         sprite = new Sprite(spriteTexture);
         sprite.setPosition(this.gamePosition);
         collisionBox = new RectangleShape();

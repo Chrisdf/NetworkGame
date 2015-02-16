@@ -1,7 +1,6 @@
 package com.classes.ui;
 
-import com.classes.Main;
-import com.classes.util.Resource;
+import com.classes.Game;
 import com.classes.util.UIElement;
 import org.jsfml.graphics.*;
 
@@ -14,7 +13,7 @@ public class FPS extends UIElement {
 
     public FPS() {
 
-        displayedFPS = new Text("", Main.getLoader().getFont("heav"), 15);
+        displayedFPS = new Text("", Game.getLoader().getFont("heav"), 15);
         displayedFPS.setPosition(0f, 0f);
         displayedFPS.setColor(Color.CYAN);
     }

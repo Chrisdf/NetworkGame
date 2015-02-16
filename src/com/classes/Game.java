@@ -15,7 +15,7 @@ import org.jsfml.window.event.Event;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class Main {
+public class Game {
 
     private final RenderWindow renderWindow;
 
@@ -35,7 +35,7 @@ public class Main {
 
     private Player mainPlayer;
 
-    private Main() {
+    private Game() {
 
         username = JOptionPane.showInputDialog("Enter a username:");
 
@@ -67,7 +67,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        new Main();
+        new Game();
     }
 
     private void runGame() {
