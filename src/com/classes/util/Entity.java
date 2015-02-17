@@ -74,6 +74,12 @@ public class Entity implements Drawable {
         if (FloatFunctions.isEqual(acceleration.y, 0))
             velocity = new Vector2f(velocity.x, velocity.y * friction);
 
+        if(FloatFunctions.isEqual(velocity.x, 0, 0.1))
+            velocity = new Vector2f(0, velocity.y);
+
+        if(FloatFunctions.isEqual(velocity.y, 0, 0.1))
+            velocity = new Vector2f(velocity.x, 0);
+
     }
 
     public void setCollisionBox() {
@@ -83,11 +89,11 @@ public class Entity implements Drawable {
         collisionBox.setFillColor(new Color(Color.BLUE, 144));
     }
 
-    public void setAngleFromNorth() {
+    public void setAngle() {
 
         Vector2f angleComp = velocity;
         angleFromNorth = Math.atan2(angleComp.y, angleComp.x);
-
+        angleFromNorth = Math.round(angleFromNorth);
         /**
          angleDisplay = new RectangleShape(new Vector2f(30, 5));
          angleDisplay.setPosition(gamePosition);
@@ -109,8 +115,8 @@ public class Entity implements Drawable {
         gamePosition = Vector2f.add(gamePosition, velocity);
         sprite.setPosition(gamePosition);
 
+        setAngle();
         setCollisionBox();
-        setAngleFromNorth();
         setFacingDirection();
         applyFriction();
     }
@@ -157,21 +163,21 @@ public class Entity implements Drawable {
 
     public String toString() {
         return "Entity : " +
-                "Game position - " + gamePosition.x + "," + gamePosition.y +
+                ////"Game position - " + gamePosition.x + "," + gamePosition.y +
                 // "/ Acceleration:" + acceleration.x +"," + acceleration.y +
-                // "/ Velocity:" + velocity.x + "," + velocity.y +
-                "/ Angle:" + Math.toDegrees(angleFromNorth);
+                "/ Velocity:" + velocity.x + "," + velocity.y +
+                "/ Angle:" + Math.toDegrees(angleFromNorth) +
+                "/ Dirtection:" + direction;
     }
 
     public void setFacingDirection() {
 
-        double degrees = Math.toDegrees(angleFromNorth);
 
-        if (degrees >= 90)
-            direction = Direction.SOUTH;
-        if (degrees >= 0)
+        if (angleFromNorth >= 90)
             direction = Direction.WEST;
-        if (degrees >= -90)
+        else if (angleFromNorth >= 0)
+            direction = Direction.SOUTH;
+        else if (angleFromNorth >= -90)
             direction = Direction.EAST;
         else
             direction = Direction.NORTH;

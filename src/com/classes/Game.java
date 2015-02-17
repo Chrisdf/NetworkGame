@@ -1,5 +1,7 @@
 package com.classes;
 
+import com.classes.net.Client;
+import com.classes.net.Server;
 import com.classes.ui.FPS;
 import com.classes.util.Resource;
 import com.classes.util.UIElement;
@@ -9,17 +11,23 @@ import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
-import org.jsfml.window.VideoMode;
+import org.jsfml.window.*;
+import org.jsfml.window.Window;
 import org.jsfml.window.event.Event;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
-public class Game {
+public class Game extends Canvas{
 
-    private final RenderWindow renderWindow;
+    private RenderWindow renderWindow;
 
     private final ConstView defaultView;
+
+    private Client client;
+
+    private Server server;
 
     private final View gameView;
 
@@ -37,7 +45,20 @@ public class Game {
 
     private Game() {
 
-        username = JOptionPane.showInputDialog("Enter a username:");
+        username = JOptionPane.showInputDialog("Enter a username: | If want to start a server, enter 'server'");
+
+        client = new Client(this, "localhost");
+        client.start();
+
+        RenderWindow window = new RenderWindow();
+
+
+        if(username.equals("server")) {
+
+            server = new Server(this);
+            server.start();
+        }
+
 
         renderWindow = new RenderWindow();
         renderWindow.create(new VideoMode(1280, 720), "NetworkGame");
@@ -61,7 +82,11 @@ public class Game {
         uiElements = new ArrayList<UIElement>();
         uiElements.add(fps);
 
+
+        client.sendData("ping".getBytes());
+
         runGame();
+
 
     }
 
@@ -119,7 +144,6 @@ public class Game {
                     break;
 
                 case KEY_PRESSED:
-
                     switch (event.asKeyEvent().key) {
 
                         case D:
@@ -158,7 +182,7 @@ public class Game {
                             currentMap.addPlayerInput(username, "LSHIFT_RELEASED");
                             break;
                         case LCONTROL:
-                            currentMap.addPlayerInput(username, "LCONRTROL_RELEASED");
+                            currentMap.addPlayerInput(username, "LCONTROL_RELEASED");
                     }
                     break;
 

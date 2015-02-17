@@ -8,35 +8,34 @@ import java.net.*;
 /**
  * Created by Chris on 2/16/2015.
  */
-public class Client extends Thread {
+public class Server extends Thread {
 
     private Game game;
-
-    private InetAddress ipAddress;
 
     private DatagramSocket socket;
 
     private int portNumber;
 
-    public Client(Game game, String ipAddress) {
+    public Server(Game game) {
 
         this.game = game;
 
         portNumber = 2015;
 
         try {
-            this.ipAddress = InetAddress.getByName(ipAddress);
-            socket = new DatagramSocket();
+            socket = new DatagramSocket(portNumber);
 
-        } catch (UnknownHostException e) {
+        } catch (ExceptionInInitializerError e) {
 
             e.printStackTrace();
+
         } catch (SocketException e) {
 
             e.printStackTrace();
         }
 
-        System.out.println("Client created");
+        System.out.println("Server created");
+
     }
 
 
@@ -52,14 +51,18 @@ public class Client extends Thread {
                 e.printStackTrace();
             }
 
-            System.out.println("SERVER RETURNED: " + new String(packet.getData()));
+            String message = new String(packet.getData());
+            System.out.println("CLIENT SENT: " + message);
 
-            sendData("ping".getBytes());
+            if(message.trim().equals("ping")) {
+                System.out.println("Returning pong");
+                sendData("pong".getBytes(), packet.getAddress(), packet.getPort());
+            }
         }
     }
 
 
-    public void sendData(byte[] data) {
+    public void sendData(byte[] data, InetAddress ipAddress, int portNumber) {
 
         DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, portNumber);
         try {
