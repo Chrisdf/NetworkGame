@@ -52,9 +52,8 @@ public class Client extends Thread {
                 e.printStackTrace();
             }
 
-            System.out.println("SERVER RETURNED: " + new String(packet.getData()));
+            //System.out.println("SERVER RETURNED: " + new String(packet.getData()));
 
-            sendData("ping".getBytes());
         }
     }
 

@@ -35,6 +35,15 @@ public class Player extends AnimatedEntity {
         inputList = new HashSet<String>();
     }
 
+    public Player(String playerName, String textureName, Vector2f gamePosition, int framesPerAniamtion) {
+
+        super(textureName, gamePosition, framesPerAniamtion);
+        this.playerName = playerName;
+        super.maxVelocity = new Vector2f(10,10);
+        inputList = new HashSet<String>();
+
+    }
+
     @Override
     public void setCollisionBox() {
 
@@ -53,7 +62,10 @@ public class Player extends AnimatedEntity {
 
         respondToInput();
         super.update();
-        gameView.setCenter(gamePosition);
+
+        if(gameView != null)
+            gameView.setCenter(gamePosition);
+
         inputList.clear();
 
         //If the player is not moving, do not animate

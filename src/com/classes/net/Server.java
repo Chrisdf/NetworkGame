@@ -1,9 +1,12 @@
 package com.classes.net;
 
 import com.classes.Game;
+import com.classes.PlayerMP;
+import com.classes.net.packets.Packet;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.ArrayList;
 
 /**
  * Created by Chris on 2/16/2015.
@@ -12,6 +15,8 @@ public class Server extends Thread {
 
     private Game game;
 
+    private ArrayList<PlayerMP> connectedPlayers;
+
     private DatagramSocket socket;
 
     private int portNumber;
@@ -19,6 +24,7 @@ public class Server extends Thread {
     public Server(Game game) {
 
         this.game = game;
+        connectedPlayers = new ArrayList<PlayerMP>();
 
         portNumber = 2015;
 
@@ -51,13 +57,7 @@ public class Server extends Thread {
                 e.printStackTrace();
             }
 
-            String message = new String(packet.getData());
-            System.out.println("CLIENT SENT: " + message);
-
-            if(message.trim().equals("ping")) {
-                System.out.println("Returning pong");
-                sendData("pong".getBytes(), packet.getAddress(), packet.getPort());
-            }
+            parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
         }
     }
 
@@ -70,6 +70,22 @@ public class Server extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void globalSendData(byte[] data) {
+
+        for(PlayerMP currentPlayer: connectedPlayers) {
+
+            sendData(data, currentPlayer.getIPAddress(), currentPlayer.getPort());
+        }
+    }
+
+    private void parsePacket(byte[] data, InetAddress ipAddress, int port) {
+
+        String message = new String(data).trim();
+
+        Packet.PacketTypes type = Packet.lookUpPacket(message.substring(0,2));
+
     }
 
 }
