@@ -1,8 +1,11 @@
 package com.classes.net;
 
 import com.classes.Game;
+import com.classes.Player;
 import com.classes.PlayerMP;
 import com.classes.net.packets.Packet;
+import com.classes.net.packets.Packet00Login;
+import org.jsfml.system.Vector2f;
 
 import java.io.IOException;
 import java.net.*;
@@ -85,6 +88,35 @@ public class Server extends Thread {
         String message = new String(data).trim();
 
         Packet.PacketTypes type = Packet.lookUpPacket(message.substring(0,2));
+
+        switch(type) {
+
+            case LOGIN:
+                Packet00Login loginPacket = new Packet00Login(data);
+                System.out.println(loginPacket.getUsername() + " connected at " + ipAddress + ":" + port);
+
+                PlayerMP player = new PlayerMP(loginPacket.getUsername(), "yoda", new Vector2f(0,0), 15, ipAddress, port);
+
+
+                if(ipAddress.equals("127.0.0.1")) {
+                    player = new PlayerMP(game.getGameView(), loginPacket.getUsername(), "yoda", new Vector2f(20,20), 15, ipAddress, port);
+                    game.setMainPlayer(player);
+                }
+
+                game.getCurrentMap().addPlayer(loginPacket.getUsername(), player);
+                connectedPlayers.add(player);
+
+                break;
+
+            case DISCONNECT:
+                break;
+
+            case INVALID:
+                System.out.println("INVALID PACKET RECIEVED");
+                break;
+
+
+        }
 
     }
 

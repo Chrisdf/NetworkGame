@@ -39,9 +39,9 @@ public class Game {
 
     private static String username;
 
-    private Map currentMap;
+    public Map currentMap;
 
-    private Player mainPlayer;
+    public Player mainPlayer;
 
     private Game() {
 
@@ -73,8 +73,6 @@ public class Game {
         currentMap = new Map(new IntRect(-1000, -1000, 1000, 1000));
 
         fps = new FPS();
-
-        mainPlayer = new Player(username, "yoda", new Vector2f(0, 0), gameView, 5);
 
         currentMap.addPlayer(username, mainPlayer);
 
@@ -211,6 +209,21 @@ public class Game {
             renderWindow.draw(ui);
 
         renderWindow.display();
+    }
+
+    public void setMainPlayer(PlayerMP player) {
+
+        mainPlayer = player;
+    }
+
+    public Map getCurrentMap() {
+
+        return currentMap;
+    }
+
+    public View getGameView() {
+
+        return gameView;
     }
 
     public static Resource getLoader() {

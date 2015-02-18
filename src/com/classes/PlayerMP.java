@@ -22,6 +22,15 @@ public class PlayerMP extends Player{
 
     }
 
+    public PlayerMP(View gameView, String playerName, String textureName, Vector2f gamePosition, int framesPerAnimation, InetAddress ipAddress, int port) {
+
+        super(playerName, textureName, gamePosition, gameView, framesPerAnimation);
+        this.ipAddress = ipAddress;
+        this.port = port;
+
+    }
+
+
     @Override
     public void update() {
 
