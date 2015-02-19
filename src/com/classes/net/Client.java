@@ -100,6 +100,7 @@ public class Client extends Thread {
 
                     System.out.println(game.getUsername() + " has had main player set");
                     game.setMainPlayer(newPlayer);
+                    game.getCurrentMap().addPlayer(packet.getUsername(), newPlayer);
                 }
 
                 break;
