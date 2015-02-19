@@ -85,27 +85,36 @@ public class Server extends Thread {
 
     private void parsePacket(byte[] data, InetAddress ipAddress, int port) {
 
+        //Convert the byte array into strings and remove extra unneeded characters
         String message = new String(data).trim();
 
+        //Find out what type of packet it is based on the first two strings in the data string
         Packet.PacketTypes type = Packet.lookUpPacket(message.substring(0,2));
 
+        //Based off the first two letters, see what type of packet it is
         switch(type) {
 
             case LOGIN:
+
+                //Instantiate the sent data as a login packet
                 Packet00Login loginPacket = new Packet00Login(data);
-                System.out.println(loginPacket.getUsername() + " connected at " + ipAddress + ":" + port);
 
-                PlayerMP player = new PlayerMP(loginPacket.getUsername(), "yoda", new Vector2f(0,0), 15, ipAddress, port);
+                if(!usernameUsed(loginPacket.getUsername())) {
 
+                    System.out.println(loginPacket.getUsername() + " connected at " + ipAddress + ":" + port);
 
-                if(ipAddress.equals("127.0.0.1")) {
-                    player = new PlayerMP(game.getGameView(), loginPacket.getUsername(), "yoda", new Vector2f(20,20), 15, ipAddress, port);
-                    game.setMainPlayer(player);
+                    PlayerMP player = new PlayerMP(loginPacket.getUsername(), "yoda", new Vector2f(0, 0), 15, ipAddress, port);
+
+                    if (ipAddress.toString().equals("/127.0.0.1")) {
+
+                        System.out.println("SERVER HOST DETECTED");
+                    }
+
+                    game.getCurrentMap().addPlayer(loginPacket.getUsername(), player);
+                    connectedPlayers.add(player);
+
+                    globalSendData(data);
                 }
-
-                game.getCurrentMap().addPlayer(loginPacket.getUsername(), player);
-                connectedPlayers.add(player);
-
                 break;
 
             case DISCONNECT:
@@ -119,5 +128,41 @@ public class Server extends Thread {
         }
 
     }
+
+    private boolean usernameUsed(String username) {
+
+        for(PlayerMP current: connectedPlayers)
+            if(username.equals(current.getUsername()))
+                return true;
+
+        return false;
+
+    }
+
+
+    private boolean hasConnected(InetAddress ipAddress) {
+
+        boolean hasConnected = false;
+
+        for(PlayerMP currentPlayer: connectedPlayers)
+            if(currentPlayer.getIPAddress().equals(ipAddress))
+                hasConnected = true;
+
+        return hasConnected;
+
+    }
+
+    private boolean hostConnected() {
+
+        boolean hostConnected = false;
+
+        for(PlayerMP currentPlayer: connectedPlayers)
+            if(currentPlayer.getIPAddress().toString().equals("/127.0.0.1"))
+                hostConnected = true;
+
+        return hostConnected;
+
+    }
+
 
 }

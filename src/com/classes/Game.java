@@ -37,7 +37,7 @@ public class Game {
 
     private ArrayList<UIElement> uiElements;
 
-    private static String username;
+    private String username;
 
     public Map currentMap;
 
@@ -64,6 +64,7 @@ public class Game {
         renderWindow.create(new VideoMode(1280, 720), "NetworkGame");
         renderWindow.setFramerateLimit(60);
 
+
         defaultView = renderWindow.getDefaultView();
 
         gameView = new View(defaultView.getCenter(), defaultView.getSize());
@@ -74,14 +75,10 @@ public class Game {
 
         fps = new FPS();
 
-        currentMap.addPlayer(username, mainPlayer);
-
-
         uiElements = new ArrayList<UIElement>();
         uiElements.add(fps);
 
-
-        client.sendData("ping".getBytes());
+        client.sendData(("00" + username).getBytes());
 
         runGame();
 
@@ -145,19 +142,19 @@ public class Game {
                     switch (event.asKeyEvent().key) {
 
                         case D:
-                            currentMap.addPlayerInput(username, "D");
+                            mainPlayer.addInput("D");
                             break;
                         case A:
-                            currentMap.addPlayerInput(username, "A");
+                            mainPlayer.addInput("A");
                             break;
                         case S:
-                            currentMap.addPlayerInput(username, "S");
+                            mainPlayer.addInput("S");
                             break;
                         case W:
-                            currentMap.addPlayerInput(username, "W");
+                            mainPlayer.addInput("W");
                             break;
                         case LSHIFT:
-                            currentMap.addPlayerInput(username, "LSHIFT");
+                            mainPlayer.addInput("LSHIFT");
                     }
                     break;
 
@@ -165,22 +162,22 @@ public class Game {
                     switch (event.asKeyEvent().key) {
 
                         case D:
-                            currentMap.addPlayerInput(username, "D_RELEASED");
+                            mainPlayer.addInput("D_RELEASED");
                             break;
                         case A:
-                            currentMap.addPlayerInput(username, "A_RELEASED");
+                            mainPlayer.addInput("A_RELEASED");
                             break;
                         case S:
-                            currentMap.addPlayerInput(username, "S_RELEASED");
+                            mainPlayer.addInput("S_RELEASED");
                             break;
                         case W:
-                            currentMap.addPlayerInput(username, "W_RELEASED");
+                            mainPlayer.addInput("W_RELEASED");
                             break;
                         case LSHIFT:
-                            currentMap.addPlayerInput(username, "LSHIFT_RELEASED");
+                            mainPlayer.addInput("LSHIFT_RELEASED");
                             break;
                         case LCONTROL:
-                            currentMap.addPlayerInput(username, "LCONTROL_RELEASED");
+                            mainPlayer.addInput("LCONTROL_RELEASED");
                     }
                     break;
 
@@ -199,7 +196,11 @@ public class Game {
 
         renderWindow.clear();
 
-        renderWindow.setView(gameView);
+        if(gameView != null && mainPlayer != null) {
+
+            gameView.setCenter(mainPlayer.getGamePosition());
+            renderWindow.setView(gameView);
+        }
 
         renderWindow.draw(currentMap);
 
@@ -231,7 +232,7 @@ public class Game {
     }
 
 
-    public static String getUsername() {
+    public String getUsername() {
         return username;
     }
 

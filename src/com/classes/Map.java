@@ -88,11 +88,6 @@ public class Map implements Drawable {
         playerList.put(name, playerToAdd);
     }
 
-    public void addPlayerInput(String username, String keyPressed) {
-
-        playerList.get(username).addInput(keyPressed);
-    }
-
     public void update() {
 
         for (String key : playerList.keySet()) {

@@ -61,17 +61,17 @@ public class Player extends AnimatedEntity {
     public void update() {
 
         respondToInput();
+
         super.update();
 
-        if(gameView != null)
-            gameView.setCenter(gamePosition);
-
-        inputList.clear();
 
         //If the player is not moving, do not animate
         if (FloatFunctions.isEqual(velocity.x, 0, 0.5))
             if (FloatFunctions.isEqual(velocity.y, 0, 0.5))
                 isAnimating = false;
+
+
+        inputList.clear();
     }
 
     public void respondToInput() {
@@ -140,6 +140,7 @@ public class Player extends AnimatedEntity {
 
     public void addInput(String input) {
 
+        System.out.println("ADDING INPUT " + input);
         inputList.add(input);
     }
 
@@ -148,6 +149,10 @@ public class Player extends AnimatedEntity {
         gameViewZoom = gameViewZoom + 0.5f;
 
         gameView.zoom(gameViewZoom);
+    }
+
+    public String getUsername() {
+        return playerName;
     }
 
 }
