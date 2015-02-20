@@ -138,7 +138,7 @@ public class Server extends Thread {
 
                 Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
 
-                System.out.println("User " + disconnectPacket.getUsername() + " has disconnected");
+                System.out.println("User " + disconnectPacket.getUsername() + " has disconnected from the server");
 
                 for (int i = 0; i < connectedPlayers.size(); i++) {
 
@@ -149,8 +149,9 @@ public class Server extends Thread {
 
                 game.getCurrentMap().removePlayer(disconnectPacket.getUsername());
 
-                System.out.println(connectedPlayers);
-
+                /**
+                 * Tell all connected clients that the client has disconnected
+                 */
                 globalSendData(data);
 
                 break;
