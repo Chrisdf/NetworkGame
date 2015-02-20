@@ -35,7 +35,7 @@ public class Tile implements Drawable {
         this.positionInRoom = positionInRoom;
         this.roomTiles = roomTiles;
 
-        //Load the texture from resources based on theme type
+        //Load the texture from com.classes.resources based on theme type
         spriteTexture = Game.getLoader().getTexture(getTileTextureName());
 
         //Mark the tile collision box as the pixel area of the tile

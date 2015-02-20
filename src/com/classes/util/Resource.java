@@ -38,14 +38,14 @@ public class Resource {
     public void addTexture(String name, String extension) {
 
         Texture oneToAdd = new Texture();
-        //InputStream stream = Resource.class.getResourceAsStream("resources/images/" + name + ".jpg");
+        //InputStream stream = Resource.class.getResourceAsStream("com.classes.resources/images/" + name + ".jpg");
 
         try {
             //oneToAdd.loadFromStream(stream);
-            oneToAdd.loadFromFile(Paths.get("src/com/classes/resources/images/" + name + "." + extension));
+            oneToAdd.loadFromFile(Paths.get("resources/images/" + name + "." + extension));
 
         } catch (Exception e) {
-            System.out.print("Texture " + name + "failed to load as extension " + extension);
+            System.out.println("Texture " + name + "failed to load as extension " + extension);
             e.printStackTrace();
         }
 
@@ -62,9 +62,9 @@ public class Resource {
         Font oneToAdd = new Font();
 
         try {
-            oneToAdd.loadFromFile(Paths.get("src/com/classes/resources/fonts/" + name + "." + extension));
+            oneToAdd.loadFromFile(Paths.get("resources/fonts/" + name + "." + extension));
         } catch (Exception e) {
-            System.out.print("Font " + name + "did not load properly" + "as extension " + extension);
+            System.out.println("Font " + name + "did not load properly" + "as extension " + extension);
             e.printStackTrace();
         }
 
