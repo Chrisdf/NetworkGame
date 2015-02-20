@@ -29,6 +29,7 @@ public class Server extends Thread {
         this.game = game;
         connectedPlayers = new ArrayList<PlayerMP>();
 
+        //Port number for the server, all clients must have matching ports to connect
         portNumber = 2015;
 
         try {
@@ -111,8 +112,23 @@ public class Server extends Thread {
                     }
 
                     game.getCurrentMap().addPlayer(loginPacket.getUsername(), player);
+
+
+                    /**
+                     * Tell the connecting player about all the players currently in the game
+                     */
+                    for(PlayerMP current: connectedPlayers)
+                        sendData(("00" + current.getUsername()).getBytes(), ipAddress, port);
+
+                    /**
+                     * Add the connecting player to the playerlist
+                     */
                     connectedPlayers.add(player);
 
+
+                    /**
+                     * Tell all the other connected players about the new connection
+                     */
                     globalSendData(data);
                 }
                 break;

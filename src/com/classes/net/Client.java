@@ -26,6 +26,7 @@ public class Client extends Thread {
 
         this.game = game;
 
+        //Port number for the client must match the server portNumber
         portNumber = 2015;
 
         try {
@@ -49,7 +50,7 @@ public class Client extends Thread {
         while (true) {
 
             /**
-             * Constantly look for new packets, once received extract the contents into a packet
+             * Constantly look for new data, once received extract the contents into a packet
              * for later examination
              */
             byte[] data = new byte[1024];
@@ -88,6 +89,12 @@ public class Client extends Thread {
         //Based off the first two letters, see what type of packet it is
         switch (type) {
 
+
+            /**
+             * Packet for when the user receives confirmation they have been logged in.
+             * Creates the player of the server approved username and adds it to the local game map.
+             * Also sets the character to the main client character
+             */
             case LOGIN:
 
                 Packet00Login packet = new Packet00Login(data);
@@ -100,11 +107,15 @@ public class Client extends Thread {
 
                     System.out.println(game.getUsername() + " has had main player set");
                     game.setMainPlayer(newPlayer);
-                    game.getCurrentMap().addPlayer(packet.getUsername(), newPlayer);
                 }
+
+                game.getCurrentMap().addPlayer(packet.getUsername(), newPlayer);
 
                 break;
 
+            /**
+             *
+             */
             case DISCONNECT:
                 break;
 
