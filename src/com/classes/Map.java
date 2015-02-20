@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class Map implements Drawable {
 
-    private java.util.Map<String, Player> playerList;
+    private java.util.Map<String, PlayerMP> playerList;
 
     private ArrayList<Entity> entityList;
 
@@ -33,7 +33,7 @@ public class Map implements Drawable {
 
     public Map(IntRect mapDimensions) {
 
-        playerList = new HashMap<String, Player>();
+        playerList = new HashMap<String, PlayerMP>();
         entityList = new ArrayList<Entity>();
         roomList = new ArrayList<Room>();
 
@@ -83,15 +83,21 @@ public class Map implements Drawable {
         return intersects;
     }
 
-    public void addPlayer(String name, Player playerToAdd) {
+    public void addPlayer(String name, PlayerMP playerToAdd) {
 
         playerList.put(name, playerToAdd);
+    }
+
+    public void removePlayer(String name) {
+
+        playerList.remove(name);
     }
 
     public void update() {
 
         for (String key : playerList.keySet()) {
-            playerList.get(key).update();
+            if (playerList.get(key) != null)
+                playerList.get(key).update();
         }
 
         for (Entity entity : entityList) {

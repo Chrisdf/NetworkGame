@@ -4,6 +4,7 @@ import com.classes.Game;
 import com.classes.PlayerMP;
 import com.classes.net.packets.Packet;
 import com.classes.net.packets.Packet00Login;
+import com.classes.net.packets.Packet01Disconnect;
 import org.jsfml.system.Vector2f;
 
 import java.io.IOException;
@@ -90,26 +91,33 @@ public class Client extends Thread {
 
             case LOGIN:
 
-                Packet00Login packet = new Packet00Login(data);
+                Packet00Login loginPacket = new Packet00Login(data);
 
-                System.out.println("Client received other client named " + packet.getUsername());
+                System.out.println("Client received other client named " + loginPacket.getUsername());
 
-                PlayerMP newPlayer = new PlayerMP(packet.getUsername(), "yoda", new Vector2f(0,0), 15, ipAddress, portNumber);
+                PlayerMP newPlayer = new PlayerMP(loginPacket.getUsername(), "yoda", new Vector2f(0, 0), 15, ipAddress, portNumber);
 
-                if(packet.getUsername().equals(game.getUsername())) {
+                if (loginPacket.getUsername().equals(game.getUsername())) {
 
                     System.out.println(game.getUsername() + " has had main player set");
                     game.setMainPlayer(newPlayer);
-                    game.getCurrentMap().addPlayer(packet.getUsername(), newPlayer);
+                    game.getCurrentMap().addPlayer(loginPacket.getUsername(), newPlayer);
                 }
 
                 break;
 
             case DISCONNECT:
+
+                Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
+
+                System.out.println("Client " + disconnectPacket.getUsername() + " disconnected");
+
+                game.getCurrentMap().removePlayer(disconnectPacket.getUsername());
+
                 break;
 
             case INVALID:
-                System.out.println("INVALID PACKET RECEIVED");
+                System.out.println("INVALID PACKET RECEIVED AS " + message);
                 break;
 
 

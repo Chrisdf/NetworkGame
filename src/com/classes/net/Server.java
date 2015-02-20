@@ -5,6 +5,7 @@ import com.classes.Player;
 import com.classes.PlayerMP;
 import com.classes.net.packets.Packet;
 import com.classes.net.packets.Packet00Login;
+import com.classes.net.packets.Packet01Disconnect;
 import org.jsfml.system.Vector2f;
 
 import java.io.IOException;
@@ -118,6 +119,24 @@ public class Server extends Thread {
                 break;
 
             case DISCONNECT:
+
+                Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
+
+                System.out.println("User " + disconnectPacket.getUsername() + " has disconnected");
+
+                for (int i = 0; i < connectedPlayers.size(); i++) {
+
+                    if (connectedPlayers.get(i).equals(disconnectPacket.getUsername()))
+                        connectedPlayers.remove(i);
+                    i--;
+                }
+
+                game.getCurrentMap().removePlayer(disconnectPacket.getUsername());
+
+                System.out.println(connectedPlayers);
+
+                globalSendData(data);
+
                 break;
 
             case INVALID:
