@@ -14,7 +14,7 @@ public abstract class Packet {
     public static enum PacketTypes {
         INVALID(-1),
         LOGIN(00),
-        DISCONNECT(02);
+        DISCONNECT(01);
 
         private int packetID;
 

@@ -135,6 +135,7 @@ public class Game {
             switch (event.type) {
 
                 case CLOSED:
+                    client.sendData(("01" + username).getBytes());
                     renderWindow.close();
                     break;
 
