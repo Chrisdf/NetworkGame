@@ -10,13 +10,10 @@ import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Clock;
-import org.jsfml.system.Vector2f;
-import org.jsfml.window.*;
-import org.jsfml.window.Window;
+import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Game {

@@ -9,7 +9,10 @@ import com.classes.net.packets.Packet01Disconnect;
 import org.jsfml.system.Vector2f;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 /**
@@ -30,7 +33,7 @@ public class Server extends Thread {
         this.game = game;
         connectedPlayers = new ArrayList<PlayerMP>();
 
-        portNumber = 2015;
+        portNumber = 12345;
 
         try {
             socket = new DatagramSocket(portNumber);

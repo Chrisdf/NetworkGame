@@ -27,7 +27,7 @@ public class Client extends Thread {
 
         this.game = game;
 
-        portNumber = 2015;
+        portNumber = 12345;
 
         try {
             this.ipAddress = InetAddress.getByName(ipAddress);
