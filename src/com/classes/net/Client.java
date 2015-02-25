@@ -5,10 +5,12 @@ import com.classes.PlayerMP;
 import com.classes.net.packets.Packet;
 import com.classes.net.packets.Packet00Login;
 import com.classes.net.packets.Packet01Disconnect;
+import com.classes.net.packets.Packet02Move;
 import org.jsfml.system.Vector2f;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.Map;
 
 /**
  * Created by Chris on 2/16/2015.
@@ -84,6 +86,8 @@ public class Client extends Thread {
         //Convert the byte array into strings and remove extra unneeded characters
         String message = new String(data).trim();
 
+        System.out.println(message);
+
         //Find out what type of packet it is based on the first two strings in the data string
         Packet.PacketTypes type = Packet.lookUpPacket(message.substring(0, 2));
 
@@ -112,7 +116,6 @@ public class Client extends Thread {
                  */
                  if(loginPacket.getUsername().equals(game.getUsername())) {
 
-                    System.out.println(game.getUsername() + " has had main player set");
                     game.setMainPlayer(newPlayer);
                 }
 
@@ -128,9 +131,17 @@ public class Client extends Thread {
 
                 Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
 
-                System.out.println(disconnectPacket.getUsername() + "has disconnected from the client");
+                System.out.println(disconnectPacket.getUsername() + " has disconnected from the client");
 
                 game.getCurrentMap().removePlayer(disconnectPacket.getUsername());
+
+                break;
+
+            case MOVE:
+
+                Packet02Move movePacket = new Packet02Move(data);
+
+                game.getCurrentMap().getPlayerList().get(movePacket.getUsername()).setGamePosition(movePacket.getPosition());
 
                 break;
 

@@ -83,6 +83,11 @@ public class Map implements Drawable {
         return intersects;
     }
 
+    public java.util.Map<String, PlayerMP> getPlayerList() {
+
+        return playerList;
+    }
+
     public void addPlayer(String name, PlayerMP playerToAdd) {
 
         playerList.put(name, playerToAdd);

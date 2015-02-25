@@ -14,7 +14,8 @@ public abstract class Packet {
     public static enum PacketTypes {
         INVALID(-1),
         LOGIN(00),
-        DISCONNECT(01);
+        DISCONNECT(01),
+        MOVE(02);
 
         private int packetID;
 
@@ -63,7 +64,7 @@ public abstract class Packet {
             int id = Integer.parseInt(message);
             return lookUpPacket(id);
 
-        }catch (NumberFormatException e) {
+        }   catch (NumberFormatException e) {
 
             e.printStackTrace();
             System.out.println("Packet id is not valid integer");

@@ -6,6 +6,7 @@ import com.classes.PlayerMP;
 import com.classes.net.packets.Packet;
 import com.classes.net.packets.Packet00Login;
 import com.classes.net.packets.Packet01Disconnect;
+import com.classes.net.packets.Packet02Move;
 import org.jsfml.system.Vector2f;
 
 import java.io.IOException;
@@ -122,7 +123,7 @@ public class Server extends Thread {
                         sendData(("00" + current.getUsername()).getBytes(), ipAddress, port);
 
                     /**
-                     * Add the connecting player to the playerlist
+                     * Add the connecting player to the player list
                      */
                     connectedPlayers.add(player);
 
@@ -142,12 +143,16 @@ public class Server extends Thread {
 
                 for (int i = 0; i < connectedPlayers.size(); i++) {
 
-                    if (connectedPlayers.get(i).equals(disconnectPacket.getUsername()))
+                    if (connectedPlayers.get(i).equals(disconnectPacket.getUsername())) {
                         connectedPlayers.remove(i);
-                    i--;
+                        i--;
+                    }
                 }
 
+
                 game.getCurrentMap().removePlayer(disconnectPacket.getUsername());
+
+                System.out.println("Player disconnected");
 
                 /**
                  * Tell all connected clients that the client has disconnected
@@ -156,8 +161,24 @@ public class Server extends Thread {
 
                 break;
 
+            case MOVE:
+
+                Packet02Move movePacket = new Packet02Move(data);
+
+                for(PlayerMP current: connectedPlayers) {
+
+                    if(current.getUsername().equals(movePacket.getUsername())) {
+                        current.setGamePosition(movePacket.getPosition());
+                    }
+                }
+
+                globalSendData(data);
+
+                break;
+
             case INVALID:
-                System.out.println("INVALID PACKET RECIEVED");
+
+                System.out.println("INVALID PACKET RECEIVED");
                 break;
 
 

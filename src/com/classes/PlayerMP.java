@@ -1,5 +1,7 @@
 package com.classes;
 
+import com.classes.net.packets.Packet02Move;
+import com.classes.util.VectorFunctions;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
 
@@ -35,6 +37,10 @@ public class PlayerMP extends Player{
     public void update() {
 
         super.update();
+
+        Packet02Move move = new Packet02Move(playerName, VectorFunctions.round(gamePosition));
+
+        move.writeData(Game.game.getClient());
     }
 
     public InetAddress getIPAddress() {

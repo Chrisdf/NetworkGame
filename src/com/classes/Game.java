@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class Game {
 
+    public static Game game;
+
     private RenderWindow renderWindow;
 
     private final ConstView defaultView;
@@ -61,7 +63,6 @@ public class Game {
         renderWindow.create(new VideoMode(1280, 720), "NetworkGame");
         renderWindow.setFramerateLimit(60);
 
-
         defaultView = renderWindow.getDefaultView();
 
         gameView = new View(defaultView.getCenter(), defaultView.getSize());
@@ -76,6 +77,8 @@ public class Game {
         uiElements.add(fps);
 
         client.sendData(("00" + username).getBytes());
+
+        game = this;
 
         runGame();
 
@@ -132,7 +135,10 @@ public class Game {
             switch (event.type) {
 
                 case CLOSED:
+
+                    //Send a logout packet
                     client.sendData(("01" + username).getBytes());
+
                     renderWindow.close();
                     break;
 
@@ -213,6 +219,7 @@ public class Game {
     public void setMainPlayer(PlayerMP player) {
 
         mainPlayer = player;
+        mainPlayer.setGameView(gameView);
     }
 
     public Map getCurrentMap() {
@@ -223,6 +230,16 @@ public class Game {
     public View getGameView() {
 
         return gameView;
+    }
+
+    public Server getServer() {
+
+        return server;
+    }
+
+    public Client getClient() {
+
+        return client;
     }
 
     public static Resource getLoader() {

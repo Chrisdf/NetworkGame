@@ -1,5 +1,6 @@
 package com.classes;
 
+import com.classes.net.packets.Packet02Move;
 import com.classes.util.AnimatedEntity;
 import com.classes.util.Direction;
 import com.classes.util.FloatFunctions;
@@ -72,6 +73,7 @@ public class Player extends AnimatedEntity {
 
 
         inputList.clear();
+
     }
 
     public void respondToInput() {
@@ -140,8 +142,12 @@ public class Player extends AnimatedEntity {
 
     public void addInput(String input) {
 
-        System.out.println("ADDING INPUT " + input);
         inputList.add(input);
+    }
+
+    public void setGameView(View gameView) {
+
+        this.gameView = gameView;
     }
 
     private void toggleViewZoom() {
@@ -155,4 +161,9 @@ public class Player extends AnimatedEntity {
         return playerName;
     }
 
+    public String toString() {
+
+        return playerName;
+    }
 }
+
