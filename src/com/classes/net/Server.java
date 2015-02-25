@@ -32,7 +32,7 @@ public class Server extends Thread {
         connectedPlayers = new ArrayList<PlayerMP>();
 
         //Port number for the server, all clients must have matching ports to connect
-        portNumber = 2015;
+        portNumber = 3015;
 
         try {
             socket = new DatagramSocket(portNumber);
@@ -53,7 +53,7 @@ public class Server extends Thread {
 
     public void run() {
 
-        while (true) {
+        while (!socket.isClosed()) {
             byte[] data = new byte[1024];
             DatagramPacket packet = new DatagramPacket(data, data.length);
 
@@ -120,7 +120,7 @@ public class Server extends Thread {
                      * Tell the connecting player about all the players currently in the game
                      */
                     for(PlayerMP current: connectedPlayers)
-                        sendData(("00" + current.getUsername()).getBytes(), ipAddress, port);
+                        sendData(("00" + current.getUsername() + "," + current.getGamePosition().x + "," + current.getGamePosition().y).getBytes(), ipAddress, port);
 
                     /**
                      * Add the connecting player to the player list
@@ -219,6 +219,11 @@ public class Server extends Thread {
 
         return hostConnected;
 
+    }
+
+    public void closeSocket() {
+
+        socket.close();
     }
 
 

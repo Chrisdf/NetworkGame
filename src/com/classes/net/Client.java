@@ -30,7 +30,7 @@ public class Client extends Thread {
         this.game = game;
 
         //Port number for the client must match the server portNumber
-        portNumber = 2015;
+        portNumber = 3015;
 
         try {
             this.ipAddress = InetAddress.getByName(ipAddress);
@@ -50,7 +50,7 @@ public class Client extends Thread {
 
     public void run() {
 
-        while (true) {
+        while (!socket.isClosed()) {
 
             /**
              * Constantly look for new data, once received extract the contents into a packet
@@ -108,7 +108,7 @@ public class Client extends Thread {
                 System.out.println("Client received other client named " + loginPacket.getUsername());
 
                 //Create the player on the client
-                PlayerMP newPlayer = new PlayerMP(loginPacket.getUsername(), "yoda", new Vector2f(0,0), 15, ipAddress, portNumber);
+                PlayerMP newPlayer = new PlayerMP(loginPacket.getUsername(), "yoda", loginPacket.getGamePosition(), 15, ipAddress, portNumber);
 
                 /**
                  * If the player being created is the localhost, then set it as the player the local
@@ -151,6 +151,11 @@ public class Client extends Thread {
 
 
         }
+    }
+
+    public void closeSocket() {
+
+        socket.close();
     }
 
 }

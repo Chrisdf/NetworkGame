@@ -38,6 +38,8 @@ public class Game {
 
     private String username;
 
+    private String serverIP;
+
     public Map currentMap;
 
     public Player mainPlayer;
@@ -45,7 +47,11 @@ public class Game {
     private Game() {
 
         username = JOptionPane.showInputDialog("Enter a username: | If want to start a server, enter 'server'");
-        String serverIP = JOptionPane.showInputDialog("Enter an IP to connect to: | If you are the server, enter 'localhost'");
+
+        if(!username.equals("server"))
+            serverIP = JOptionPane.showInputDialog("Enter an IP to connect to: | If you are the server, enter 'localhost'");
+        else
+            serverIP = "localhost";
 
         client = new Client(this, serverIP);
         client.start();
@@ -77,7 +83,7 @@ public class Game {
         uiElements = new ArrayList<UIElement>();
         uiElements.add(fps);
 
-        client.sendData(("00" + username).getBytes());
+        client.sendData(("00" + username + "," + 0f + "," + 0f).getBytes());
 
         game = this;
 
@@ -139,6 +145,10 @@ public class Game {
 
                     //Send a logout packet
                     client.sendData(("01" + username).getBytes());
+                    client.closeSocket();
+
+                    if(server != null)
+                        server.closeSocket();
 
                     renderWindow.close();
                     break;

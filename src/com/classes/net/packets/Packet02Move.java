@@ -16,7 +16,6 @@ public class Packet02Move extends Packet {
 
         super(02);
         String information[] = readData(data).split(",");
-        System.out.println(information);
 
         this.username = information[0];
         this.position = new Vector2f(Float.parseFloat(information[1]), 0f);
