@@ -3,6 +3,7 @@ package com.classes.util;
 import org.jsfml.graphics.Font;
 import org.jsfml.graphics.Texture;
 
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,14 +39,13 @@ public class Resource {
     public void addTexture(String name, String extension) {
 
         Texture oneToAdd = new Texture();
-        //InputStream stream = Resource.class.getResourceAsStream("com.classes.resources/images/" + name + ".jpg");
 
         try {
-            //oneToAdd.loadFromStream(stream);
-            oneToAdd.loadFromFile(Paths.get("resources/images/" + name + "." + extension));
+
+            oneToAdd.loadFromStream(loadResource("/images/" + name + "." + extension));
 
         } catch (Exception e) {
-            System.out.println("Texture " + name + "failed to load as extension " + extension);
+            System.out.println("Texture " + name + " failed to load as extension " + extension);
             e.printStackTrace();
         }
 
@@ -62,7 +62,9 @@ public class Resource {
         Font oneToAdd = new Font();
 
         try {
-            oneToAdd.loadFromFile(Paths.get("resources/fonts/" + name + "." + extension));
+
+            oneToAdd.loadFromStream(loadResource("/fonts/" + name + "." + extension));
+
         } catch (Exception e) {
             System.out.println("Font " + name + "did not load properly" + "as extension " + extension);
             e.printStackTrace();
@@ -74,6 +76,11 @@ public class Resource {
     public Font getFont(String fontName) {
 
         return fontMap.get(fontName);
+    }
+
+    public static InputStream loadResource(String name) {
+
+        return Resource.class.getResourceAsStream(name);
     }
 
 

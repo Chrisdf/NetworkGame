@@ -45,8 +45,9 @@ public class Game {
     private Game() {
 
         username = JOptionPane.showInputDialog("Enter a username: | If want to start a server, enter 'server'");
+        String serverIP = JOptionPane.showInputDialog("Enter an IP to connect to: | If you are the server, enter 'localhost'");
 
-        client = new Client(this, "localhost");
+        client = new Client(this, serverIP);
         client.start();
 
         RenderWindow window = new RenderWindow();
