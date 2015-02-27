@@ -163,6 +163,7 @@ public class Map implements Drawable {
             Vector2i firstCenter = roomList.get(i).getCenterTilePosition();
             Vector2i secondCenter = roomList.get(i+1).getCenterTilePosition();
 
+            //Find which directions are needed to go for the connecting hallways
             Vector2i directions = VectorFunctions.getSign(Vector2i.sub(firstCenter, secondCenter));
 
         }
