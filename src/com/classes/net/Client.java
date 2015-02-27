@@ -86,8 +86,6 @@ public class Client extends Thread {
         //Convert the byte array into strings and remove extra unneeded characters
         String message = new String(data).trim();
 
-        System.out.println(message);
-
         //Find out what type of packet it is based on the first two strings in the data string
         Packet.PacketTypes type = Packet.lookUpPacket(message.substring(0, 2));
 

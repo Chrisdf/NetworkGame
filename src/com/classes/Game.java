@@ -10,6 +10,7 @@ import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Clock;
+import org.jsfml.system.Vector2i;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
@@ -76,7 +77,7 @@ public class Game {
 
         loader = new Resource();
 
-        currentMap = new Map(new IntRect(-1000, -1000, 1000, 1000));
+        currentMap = new Map(new Vector2i(80, 80));
 
         fps = new FPS();
 
