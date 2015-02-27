@@ -24,28 +24,28 @@ public class Tile implements Drawable {
 
     private Tile[][] roomTiles;
 
+    private Vector2i gamePosition;
+
     private float tileFriction;
 
     private float tileDamage;
 
-    public Tile(Theme theme, Vector2i tileDimensions, Vector2f gamePosition, Vector2i positionInRoom, Tile[][] roomTiles, Vector2i tileScale) {
+    public Tile(Theme theme, Vector2i tileDimensions, Vector2i gamePosition, Vector2i positionInRoom, Tile[][] roomTiles) {
 
         this.tileDimensions = tileDimensions;
         this.theme = theme;
         this.positionInRoom = positionInRoom;
         this.roomTiles = roomTiles;
+        this.gamePosition = gamePosition;
 
         //Load the texture from com.classes.resources based on theme type
         spriteTexture = Game.getLoader().getTexture(getTileTextureName());
 
         //Mark the tile collision box as the pixel area of the tile
-        tileArea = new IntRect(new Vector2i(gamePosition), tileDimensions);
+        tileArea = new IntRect(gamePosition, tileDimensions);
 
         tileSprite = new Sprite(spriteTexture);
-        tileSprite.setPosition(gamePosition);
-
-        //Take inverse of tile scale to get desired tile size, preferably 100x100 after scaling
-        tileSprite.setScale(Vector2f.componentwiseDiv(new Vector2f(1, 1), new Vector2f(tileScale)));
+        tileSprite.setPosition(new Vector2f(gamePosition));
 
         tileFriction = 0.4f;
 
@@ -77,6 +77,11 @@ public class Tile implements Drawable {
     public void draw(RenderTarget renderTarget, RenderStates renderStates) {
 
         tileSprite.draw(renderTarget, renderStates);
+    }
+
+    public String toString(){
+
+        return gamePosition.x + "," + gamePosition.y;
     }
 
 }

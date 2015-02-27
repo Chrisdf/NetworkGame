@@ -58,4 +58,11 @@ public class VectorFunctions {
         return new Vector2f(xSign, ySign);
 
     }
+
+    public static Vector2i getSign(Vector2i vector) {
+
+        Vector2f sign = getSign(new Vector2f(vector));
+
+        return new Vector2i(sign);
+    }
 }
