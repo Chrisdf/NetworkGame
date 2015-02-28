@@ -18,9 +18,9 @@ public class FPS extends UIElement {
         displayedFPS.setColor(Color.CYAN);
     }
 
-   public void displayFPS(int fps){
+    public void displayFPS(int fps) {
 
-       displayedFPS.setString(fps + "");
+        displayedFPS.setString(fps + "");
     }
 
     public void draw(RenderTarget renderTarget, RenderStates renderStates) {

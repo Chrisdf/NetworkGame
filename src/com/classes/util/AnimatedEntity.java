@@ -21,7 +21,7 @@ public class AnimatedEntity extends Entity {
 
     protected Vector2i spriteSize;
 
-    public AnimatedEntity(String textureName, Vector2f gamePosition, int framesPerAnimation){
+    public AnimatedEntity(String textureName, Vector2f gamePosition, int framesPerAnimation) {
 
         super(textureName, gamePosition);
         uniqueAnimationFrames = 4;
@@ -29,7 +29,7 @@ public class AnimatedEntity extends Entity {
         this.framesPerAnimation = framesPerAnimation;
         verticalFramePosition = getVerticalFramePosition();
 
-        IntRect textureRect = new IntRect(currentFrame/framesPerAnimation, verticalFramePosition, spriteSize.x, spriteSize.y);
+        IntRect textureRect = new IntRect(currentFrame / framesPerAnimation, verticalFramePosition, spriteSize.x, spriteSize.y);
         sprite.setTextureRect(textureRect);
     }
 
@@ -51,21 +51,21 @@ public class AnimatedEntity extends Entity {
         return -1;
     }
 
-    public void update(){
+    public void update() {
 
         super.update();
 
         verticalFramePosition = getVerticalFramePosition();
 
-        if(isAnimating)
+        if (isAnimating)
             currentFrame++;
         else
             currentFrame = 0;
 
-        if(currentFrame >= framesPerAnimation * uniqueAnimationFrames)
+        if (currentFrame >= framesPerAnimation * uniqueAnimationFrames)
             currentFrame = 0;
 
-        int xStartCoords = spriteSize.x *(currentFrame/framesPerAnimation);
+        int xStartCoords = spriteSize.x * (currentFrame / framesPerAnimation);
         int yStartCoords = spriteSize.y * verticalFramePosition;
         IntRect textureRect = new IntRect(xStartCoords, yStartCoords, spriteSize.x, spriteSize.y);
         sprite.setTextureRect(textureRect);

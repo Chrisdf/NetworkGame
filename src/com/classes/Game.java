@@ -60,7 +60,7 @@ public class Game {
         RenderWindow window = new RenderWindow();
 
 
-        if(username.equals("server")) {
+        if (username.equals("server")) {
 
             server = new Server(this);
             server.start();
@@ -212,7 +212,7 @@ public class Game {
 
         renderWindow.clear();
 
-        if(gameView != null && mainPlayer != null) {
+        if (gameView != null && mainPlayer != null) {
 
             gameView.setCenter(mainPlayer.getGamePosition());
             renderWindow.setView(gameView);

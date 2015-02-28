@@ -40,7 +40,7 @@ public class Player extends AnimatedEntity {
 
         super(textureName, gamePosition, framesPerAniamtion);
         this.playerName = playerName;
-        super.maxVelocity = new Vector2f(10,10);
+        super.maxVelocity = new Vector2f(10, 10);
         inputList = new HashSet<String>();
 
     }
@@ -154,7 +154,8 @@ public class Player extends AnimatedEntity {
 
         gameViewZoom = gameViewZoom + 0.5f;
 
-        gameView.zoom(gameViewZoom);
+        if (gameView != null)
+            gameView.zoom(gameViewZoom);
     }
 
     public String getUsername() {

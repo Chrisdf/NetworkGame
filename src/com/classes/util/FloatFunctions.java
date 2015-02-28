@@ -5,15 +5,15 @@ package com.classes.util;
  */
 public abstract class FloatFunctions {
 
-    private FloatFunctions() {}
+    private FloatFunctions() {
+    }
 
 
-
-    public static boolean isEqual(float f1, float f2){
+    public static boolean isEqual(float f1, float f2) {
 
         double desiredPrecision = 0.001;
 
-        if(Math.abs(f1 - f2) <= desiredPrecision)
+        if (Math.abs(f1 - f2) <= desiredPrecision)
             return true;
         else
             return false;
@@ -23,7 +23,7 @@ public abstract class FloatFunctions {
 
         double desiredPrecision = precision;
 
-        if(Math.abs(f1 - f2) <= desiredPrecision)
+        if (Math.abs(f1 - f2) <= desiredPrecision)
             return true;
         else
             return false;

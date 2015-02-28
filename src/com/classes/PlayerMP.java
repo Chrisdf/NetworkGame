@@ -10,7 +10,7 @@ import java.net.InetAddress;
 /**
  * Created by chris on 2/18/15.
  */
-public class PlayerMP extends Player{
+public class PlayerMP extends Player {
 
     private InetAddress ipAddress;
 

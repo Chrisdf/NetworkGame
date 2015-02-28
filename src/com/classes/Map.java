@@ -2,16 +2,12 @@ package com.classes;
 
 import com.classes.util.*;
 import org.jsfml.graphics.Drawable;
-import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
-import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
 
 /**
  * Created by Chris on 2/12/2015.
@@ -30,15 +26,11 @@ public class Map implements Drawable {
 
     private ArrayList<Room> roomList;
 
-    private int varianceInNumOfDungeons;
-
-    private int minNumOfDungeons;
-
     private int numOfDungeons;
 
     public Map(Vector2i mapDimensions) {
 
-        this.tileDimensions = new Vector2i(100,100);
+        this.tileDimensions = new Vector2i(100, 100);
         this.mapDimensions = mapDimensions;
 
         playerList = new HashMap<String, PlayerMP>();
@@ -46,8 +38,8 @@ public class Map implements Drawable {
         roomList = new ArrayList<Room>();
         tileList = new Tile[mapDimensions.x][mapDimensions.y];
 
-        minNumOfDungeons = 4;
-        varianceInNumOfDungeons = 13;
+        int minNumOfDungeons = 4;
+        int varianceInNumOfDungeons = 13;
         numOfDungeons = (int) (Math.random() * varianceInNumOfDungeons) + minNumOfDungeons;
 
         addRooms();
@@ -55,18 +47,18 @@ public class Map implements Drawable {
 
     }
 
-    public Map(Vector2i mapDimensions, int numOfDunegeons) {
+    public Map(Vector2i mapDimensions, int numOfDungeons) {
 
         new Map(mapDimensions);
-        this.numOfDungeons = numOfDunegeons;
+        this.numOfDungeons = numOfDungeons;
     }
 
     private boolean checkForIntersections(Room currentRoom) {
 
         boolean intersects = false;
 
-        for(Room checkFor: roomList)
-            if(currentRoom.getCornerCoords().intersection(checkFor.getCornerCoords()) != null)
+        for (Room checkFor : roomList)
+            if (currentRoom.getCornerCoords().intersection(checkFor.getCornerCoords()) != null)
                 intersects = true;
 
         return intersects;
@@ -103,9 +95,9 @@ public class Map implements Drawable {
 
     public void draw(RenderTarget renderTarget, RenderStates renderStates) {
 
-        for (Tile[] horizontalTiles: tileList) {
+        for (Tile[] horizontalTiles : tileList) {
             for (Tile current : horizontalTiles) {
-                if(current != null)
+                if (current != null)
                     current.draw(renderTarget, renderStates);
             }
         }
@@ -129,10 +121,7 @@ public class Map implements Drawable {
 
             Room currentRoom = new Room(roomCoords, Theme.getRandomTheme());
 
-            if (checkForIntersections(currentRoom) == true)
-                currentRoom = null;
-
-            else {
+            if (!checkForIntersections(currentRoom)) {
 
                 int farRightXCoords = currentRoom.getCornerCoords().left + currentRoom.getCornerCoords().width;
                 int farBottomYCoords = currentRoom.getCornerCoords().top + currentRoom.getCornerCoords().height;
@@ -158,13 +147,52 @@ public class Map implements Drawable {
 
     private void addHallways() {
 
-        for(int i = 0; i < roomList.size()-1; i++) {
+        /**
+         * Generates hallways between the center point of two rooms in the roomList
+         * by using the first room's x value as the hallway x value and the second room's
+         * y value as the hallway's y value
+         */
+
+        for (int i = 0; i < roomList.size() - 1; i++) {
 
             Vector2i firstCenter = roomList.get(i).getCenterTilePosition();
-            Vector2i secondCenter = roomList.get(i+1).getCenterTilePosition();
+            Vector2i secondCenter = roomList.get(i + 1).getCenterTilePosition();
+
+            Vector2i difference = Vector2i.sub(secondCenter, firstCenter);
 
             //Find which directions are needed to go for the connecting hallways
-            Vector2i directions = VectorFunctions.getSign(Vector2i.sub(firstCenter, secondCenter));
+            Vector2i directions = VectorFunctions.getSign(difference);
+
+            for (int a = 0; a <= Math.abs(difference.x); a++) {
+
+                if (tileList[(a * directions.x) + firstCenter.x][firstCenter.y] == null) {
+
+                    Vector2i gamePosition = Vector2i.componentwiseMul(new Vector2i((a * directions.x) + firstCenter.x, firstCenter.y), tileDimensions);
+                    Vector2i boardPos = new Vector2i((a * directions.x) + firstCenter.x, firstCenter.y);
+
+                    tileList[(a * directions.x) + firstCenter.x][firstCenter.y] = new Tile(roomList.get(i).getTheme(), tileDimensions, gamePosition, boardPos, tileList);
+                }
+            }
+
+            /**
+             * Although earlier the second room was compared relative to the first for the x-coords,
+             * we are now using the y value of the second room relative to the first. Because of that,
+             * we need to invert the signs of the directions
+             */
+            directions = Vector2i.neg(directions);
+
+            for (int a = 0; a <= Math.abs(difference.y); a++) {
+
+                if (tileList[secondCenter.x][(a * directions.y) + secondCenter.y] == null) {
+
+                    Vector2i gamePosition = Vector2i.componentwiseMul(new Vector2i(secondCenter.x, (a * directions.y) + secondCenter.y), tileDimensions);
+                    Vector2i boardPos = new Vector2i(secondCenter.x, (a * directions.y) + secondCenter.y);
+
+                    System.out.println(boardPos);
+
+                    tileList[secondCenter.x][(a * directions.y) + secondCenter.y] = new Tile(roomList.get(i).getTheme(), tileDimensions, gamePosition, boardPos, tileList);
+                }
+            }
 
         }
     }

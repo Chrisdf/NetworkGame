@@ -74,10 +74,10 @@ public class Entity implements Drawable {
         if (FloatFunctions.isEqual(acceleration.y, 0))
             velocity = new Vector2f(velocity.x, velocity.y * friction);
 
-        if(FloatFunctions.isEqual(velocity.x, 0, 0.1))
+        if (FloatFunctions.isEqual(velocity.x, 0, 0.1))
             velocity = new Vector2f(0, velocity.y);
 
-        if(FloatFunctions.isEqual(velocity.y, 0, 0.1))
+        if (FloatFunctions.isEqual(velocity.y, 0, 0.1))
             velocity = new Vector2f(velocity.x, 0);
 
     }

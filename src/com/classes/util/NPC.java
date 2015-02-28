@@ -5,7 +5,7 @@ import org.jsfml.system.Vector2f;
 /**
  * Created by chris on 2/10/15.
  */
-public class NPC extends Entity{
+public class NPC extends Entity {
 
     public NPC(Resource loader, String textureName, Vector2f gamePosition) {
 
@@ -23,10 +23,10 @@ public class NPC extends Entity{
 
         int randomNum = (int) (Math.random() * 10);
 
-        switch(randomNum) {
+        switch (randomNum) {
 
             case 1:
-                super.setAcceleration( new Vector2f(-0.5f, 0f));
+                super.setAcceleration(new Vector2f(-0.5f, 0f));
                 break;
             case 2:
                 super.setAcceleration(new Vector2f(0.5f, 0f));
