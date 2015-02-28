@@ -10,7 +10,7 @@ import org.jsfml.system.Vector2i;
  */
 public class Tile implements Drawable {
 
-    private Theme theme;
+    private int tileTypeIndex;
 
     private Vector2i tileDimensions;
 
@@ -30,16 +30,16 @@ public class Tile implements Drawable {
 
     private float tileDamage;
 
-    public Tile(Theme theme, Vector2i tileDimensions, Vector2i gamePosition, Vector2i positionInRoom, Tile[][] roomTiles) {
+    public Tile(TileType tileType, Vector2i tileDimensions, Vector2i gamePosition, Vector2i positionInRoom, Tile[][] roomTiles) {
 
         this.tileDimensions = tileDimensions;
-        this.theme = theme;
+        this.tileTypeIndex = TileType.findIndexByTileType(tileType);
         this.positionInRoom = positionInRoom;
         this.roomTiles = roomTiles;
         this.gamePosition = gamePosition;
 
         //Load the texture from com.classes.resources based on theme type
-        spriteTexture = Game.getLoader().getTexture(getTileTextureName());
+        spriteTexture = Game.getLoader().getTexture(TileType.getTileTextureName(tileTypeIndex));
 
 
         //Mark the tile collision box as the pixel area of the tile
@@ -55,29 +55,17 @@ public class Tile implements Drawable {
 
     }
 
-    private String getTileTextureName() {
-
-        switch (theme) {
-
-            case GLASS:
-                return "Glass";
-            case STONELIGHT:
-                return "Stone_Light";
-            case STONEDARK:
-                return "Stone_Dark";
-            case STONEDARKEST:
-                return "Stone_Darkest";
-        }
-
-        return "Stone_Dark";
-    }
-
     public Vector2i getTileDimensions() {
         return tileDimensions;
     }
 
     public IntRect getTileArea() {
         return tileArea;
+    }
+
+    public TileType getTileTypeIndex() {
+
+        return TileType.findTileTypeByIndex(tileTypeIndex);
     }
 
     public void draw(RenderTarget renderTarget, RenderStates renderStates) {

@@ -119,7 +119,7 @@ public class Map implements Drawable {
 
             Vector2i roomCoords = VectorFunctions.randomNum(new Vector2i(0, mapDimensions.x), new Vector2i(0, mapDimensions.y));
 
-            Room currentRoom = new Room(roomCoords, Theme.getRandomTheme());
+            Room currentRoom = new Room(roomCoords, TileType.getRandomTileType());
 
             if (!checkForIntersections(currentRoom)) {
 
@@ -134,7 +134,7 @@ public class Map implements Drawable {
 
                                 Vector2i gamePosition = Vector2i.componentwiseMul(new Vector2i(i, j), tileDimensions);
 
-                                tileList[i][j] = new Tile(currentRoom.getTheme(), tileDimensions, gamePosition, new Vector2i(i, j), tileList);
+                                tileList[i][j] = new Tile(currentRoom.getTileType(), tileDimensions, gamePosition, new Vector2i(i, j), tileList);
                             }
                         }
 
@@ -170,7 +170,7 @@ public class Map implements Drawable {
                     Vector2i gamePosition = Vector2i.componentwiseMul(new Vector2i((a * directions.x) + firstCenter.x, firstCenter.y), tileDimensions);
                     Vector2i boardPos = new Vector2i((a * directions.x) + firstCenter.x, firstCenter.y);
 
-                    tileList[(a * directions.x) + firstCenter.x][firstCenter.y] = new Tile(roomList.get(i).getTheme(), tileDimensions, gamePosition, boardPos, tileList);
+                    tileList[(a * directions.x) + firstCenter.x][firstCenter.y] = new Tile(roomList.get(i).getTileType(), tileDimensions, gamePosition, boardPos, tileList);
                 }
             }
 
@@ -190,7 +190,7 @@ public class Map implements Drawable {
 
                     System.out.println(boardPos);
 
-                    tileList[secondCenter.x][(a * directions.y) + secondCenter.y] = new Tile(roomList.get(i).getTheme(), tileDimensions, gamePosition, boardPos, tileList);
+                    tileList[secondCenter.x][(a * directions.y) + secondCenter.y] = new Tile(roomList.get(i).getTileType(), tileDimensions, gamePosition, boardPos, tileList);
                 }
             }
 

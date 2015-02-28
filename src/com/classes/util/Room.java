@@ -1,7 +1,6 @@
 package com.classes.util;
 
 import org.jsfml.graphics.*;
-import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 /**
@@ -17,11 +16,11 @@ public class Room {
 
     private Vector2i centerTilePosition;
 
-    private Theme theme;
+    private TileType tileType;
 
-    public Room(Vector2i topLeftCoords, Theme theme) {
+    public Room(Vector2i topLeftCoords, TileType tileType) {
 
-        this.theme = theme;
+        this.tileType = tileType;
 
         roomDimensions = VectorFunctions.randomNum(new Vector2i(5,20), new Vector2i(5,20));
 
@@ -49,9 +48,9 @@ public class Room {
     }
 
 
-    public Theme getTheme() {
+    public TileType getTileType() {
 
-        return theme;
+        return tileType;
     }
 
 
