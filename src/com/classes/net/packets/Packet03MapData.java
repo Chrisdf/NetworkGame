@@ -6,8 +6,6 @@ import com.classes.util.Tile;
 import com.classes.util.TileType;
 import org.jsfml.system.Vector2i;
 
-import java.util.Arrays;
-
 /**
  * Created by chris on 2/18/15.
  */
@@ -33,22 +31,27 @@ public class Packet03MapData extends Packet {
         tileDimensions = new Vector2i(Integer.parseInt(dataArray[1]), 0);
         tileDimensions = new Vector2i(tileDimensions.x, Integer.parseInt(dataArray[2]));
 
+        for (int i = 0; i < dataArray.length; i++)
+            System.out.println(dataArray[i]);
 
-        String[] mapRowArray = dataArray[3].split("|");
-        System.out.println(Arrays.toString(mapRowArray));
+        String[] mapRowArray = dataArray[3].split("#");
+
+        System.out.println(mapRowArray.length);
 
         this.tileList = new int[mapRowArray.length][mapRowArray.length];
         for (int i = 0; i < mapRowArray.length; i++) {
 
             String[] mapColumnArray = mapRowArray[i].split("_");
 
-            System.out.println(Arrays.toString(mapColumnArray));
-
             for (int d = 0; d < mapColumnArray.length; d++)
                 tileList[i][d] = Integer.parseInt(mapColumnArray[d]);
         }
 
-        printArray();
+        for (int i = 0; i < this.tileList.length; i++) {
+            for (int d = 0; d < this.tileList[i].length; d++)
+                System.out.print(this.tileList[i][d] + " ");
+            System.out.println();
+        }
 
     }
 
@@ -63,13 +66,14 @@ public class Packet03MapData extends Packet {
             for (int d = 0; d < tileList[i].length; d++) {
 
                 if (tileList[i][d] == null)
-                    this.tileList[i][d] = 99;
+                    this.tileList[i][d] = 5;
 
                 else {
                     int tileValue = TileType.findIndexByTileType(tileList[i][d].getTileTypeIndex());
                     this.tileList[i][d] = tileValue;
                 }
             }
+
     }
 
     @Override
@@ -100,10 +104,10 @@ public class Packet03MapData extends Packet {
 
                 mapData += tileList[i][d] + "_";
             }
-            mapData += "|";
-        }
 
-        mapData += tileList[tileList.length - 1];
+            if (i != tileList.length - 2)
+                mapData += "#";
+        }
 
 
         return ("03" + this.username + "," + tileDimensions.x + "," + tileDimensions.y + "," + mapData).getBytes();
