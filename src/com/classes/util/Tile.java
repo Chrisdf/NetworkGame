@@ -30,10 +30,10 @@ public class Tile implements Drawable {
 
     private float tileDamage;
 
-    public Tile(TileType tileType, Vector2i tileDimensions, Vector2i gamePosition, Vector2i positionInRoom, Tile[][] roomTiles) {
+    public Tile(int tileTypeIndex, Vector2i tileDimensions, Vector2i gamePosition, Vector2i positionInRoom, Tile[][] roomTiles) {
 
         this.tileDimensions = tileDimensions;
-        this.tileTypeIndex = TileType.findIndexByTileType(tileType);
+        this.tileTypeIndex = tileTypeIndex;
         this.positionInRoom = positionInRoom;
         this.roomTiles = roomTiles;
         this.gamePosition = gamePosition;

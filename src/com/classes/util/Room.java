@@ -16,11 +16,11 @@ public class Room {
 
     private Vector2i centerTilePosition;
 
-    private TileType tileType;
+    private int tileTypeIndex;
 
     public Room(Vector2i topLeftCoords, TileType tileType) {
 
-        this.tileType = tileType;
+        this.tileTypeIndex = TileType.findIndexByTileType(tileType);
 
         roomDimensions = VectorFunctions.randomNum(new Vector2i(5,20), new Vector2i(5,20));
 
@@ -48,9 +48,9 @@ public class Room {
     }
 
 
-    public TileType getTileType() {
+    public int getTileTypeIndex() {
 
-        return tileType;
+        return tileTypeIndex;
     }
 
 

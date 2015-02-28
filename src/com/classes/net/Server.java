@@ -1,16 +1,15 @@
 package com.classes.net;
 
 import com.classes.Game;
-import com.classes.Player;
 import com.classes.PlayerMP;
-import com.classes.net.packets.Packet;
-import com.classes.net.packets.Packet00Login;
-import com.classes.net.packets.Packet01Disconnect;
-import com.classes.net.packets.Packet02Move;
+import com.classes.net.packets.*;
 import org.jsfml.system.Vector2f;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 /**
@@ -115,6 +114,8 @@ public class Server extends Thread {
 
                     game.getCurrentMap().addPlayer(loginPacket.getUsername(), player);
 
+                    Packet03MapData mapData = new Packet03MapData(loginPacket.getUsername(), game.getCurrentMap().getTileList(), game.currentMap.getTileDimensions());
+                    sendData(mapData.getData(), ipAddress, port);
 
                     /**
                      * Tell the connecting player about all the players currently in the game

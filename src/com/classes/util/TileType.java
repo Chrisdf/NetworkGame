@@ -42,8 +42,6 @@ public enum TileType {
         enumMap = new HashMap<Integer, TileType>();
         for (TileType v : TileType.values())
             enumMap.put(v.index, v);
-
-        System.out.println(enumMap);
     }
 
     public static TileType findTileTypeByIndex(int index) {
@@ -57,8 +55,6 @@ public enum TileType {
         indexMap = new HashMap<TileType, Integer>();
         for (int i = 0; i < TileType.values().length; i++)
             indexMap.put(TileType.findTileTypeByIndex(i), i);
-
-        System.out.println(indexMap);
     }
 
     public static int findIndexByTileType(TileType type) {

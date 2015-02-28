@@ -2,15 +2,10 @@ package com.classes.net;
 
 import com.classes.Game;
 import com.classes.PlayerMP;
-import com.classes.net.packets.Packet;
-import com.classes.net.packets.Packet00Login;
-import com.classes.net.packets.Packet01Disconnect;
-import com.classes.net.packets.Packet02Move;
-import org.jsfml.system.Vector2f;
+import com.classes.net.packets.*;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.Map;
 
 /**
  * Created by Chris on 2/16/2015.
@@ -143,8 +138,18 @@ public class Client extends Thread {
 
                 break;
 
+            case MAPDATA:
+
+                Packet03MapData mapDataPacket = new Packet03MapData(data);
+
+                game.setMap(mapDataPacket);
+
+                break;
+
             case INVALID:
+
                 System.out.println("INVALID PACKET RECEIVED");
+
                 break;
 
 

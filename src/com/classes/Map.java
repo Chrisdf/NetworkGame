@@ -14,6 +14,8 @@ import java.util.HashMap;
  */
 public class Map implements Drawable {
 
+    private boolean hasLoaded;
+
     private Vector2i mapDimensions;
 
     private java.util.Map<String, PlayerMP> playerList;
@@ -28,6 +30,13 @@ public class Map implements Drawable {
 
     private int numOfDungeons;
 
+    public Map() {
+
+        playerList = new HashMap<String, PlayerMP>();
+        entityList = new ArrayList<Entity>();
+        hasLoaded = false;
+    }
+
     public Map(Vector2i mapDimensions) {
 
         this.tileDimensions = new Vector2i(32, 32);
@@ -38,19 +47,14 @@ public class Map implements Drawable {
         roomList = new ArrayList<Room>();
         tileList = new Tile[mapDimensions.x][mapDimensions.y];
 
-        int minNumOfDungeons = 4;
-        int varianceInNumOfDungeons = 13;
+        int minNumOfDungeons = 1;
+        int varianceInNumOfDungeons = 2;
         numOfDungeons = (int) (Math.random() * varianceInNumOfDungeons) + minNumOfDungeons;
 
         addRooms();
         addHallways();
 
-    }
-
-    public Map(Vector2i mapDimensions, int numOfDungeons) {
-
-        new Map(mapDimensions);
-        this.numOfDungeons = numOfDungeons;
+        hasLoaded = true;
     }
 
     private boolean checkForIntersections(Room currentRoom) {
@@ -133,8 +137,7 @@ public class Map implements Drawable {
                             for (int j = roomCoords.y; j < roomCoords.y + currentRoom.getRoomDimensions().y; j++) {
 
                                 Vector2i gamePosition = Vector2i.componentwiseMul(new Vector2i(i, j), tileDimensions);
-
-                                tileList[i][j] = new Tile(currentRoom.getTileType(), tileDimensions, gamePosition, new Vector2i(i, j), tileList);
+                                tileList[i][j] = new Tile(currentRoom.getTileTypeIndex(), tileDimensions, gamePosition, new Vector2i(i, j), tileList);
                             }
                         }
 
@@ -170,7 +173,7 @@ public class Map implements Drawable {
                     Vector2i gamePosition = Vector2i.componentwiseMul(new Vector2i((a * directions.x) + firstCenter.x, firstCenter.y), tileDimensions);
                     Vector2i boardPos = new Vector2i((a * directions.x) + firstCenter.x, firstCenter.y);
 
-                    tileList[(a * directions.x) + firstCenter.x][firstCenter.y] = new Tile(roomList.get(i).getTileType(), tileDimensions, gamePosition, boardPos, tileList);
+                    tileList[(a * directions.x) + firstCenter.x][firstCenter.y] = new Tile(roomList.get(i).getTileTypeIndex(), tileDimensions, gamePosition, boardPos, tileList);
                 }
             }
 
@@ -188,13 +191,49 @@ public class Map implements Drawable {
                     Vector2i gamePosition = Vector2i.componentwiseMul(new Vector2i(secondCenter.x, (a * directions.y) + secondCenter.y), tileDimensions);
                     Vector2i boardPos = new Vector2i(secondCenter.x, (a * directions.y) + secondCenter.y);
 
-                    System.out.println(boardPos);
-
-                    tileList[secondCenter.x][(a * directions.y) + secondCenter.y] = new Tile(roomList.get(i).getTileType(), tileDimensions, gamePosition, boardPos, tileList);
+                    tileList[secondCenter.x][(a * directions.y) + secondCenter.y] = new Tile(roomList.get(i).getTileTypeIndex(), tileDimensions, gamePosition, boardPos, tileList);
                 }
             }
 
         }
+    }
+
+    public void setMap(int[][] mapTileData, Vector2i tileDimensions) {
+
+        this.tileDimensions = tileDimensions;
+        this.mapDimensions = new Vector2i(mapTileData.length, mapTileData[0].length);
+
+        for (int i = 0; i < mapTileData.length; i++) {
+            for (int d = 0; d < mapTileData[i].length; d++) {
+
+                if (mapTileData[i][d] != 99) {
+
+                    Vector2i boardPos = new Vector2i(i, d);
+                    Vector2i gamePosition = Vector2i.componentwiseMul(boardPos, tileDimensions);
+
+                    Tile currentTile = new Tile(mapTileData[i][d], tileDimensions, gamePosition, boardPos, tileList);
+                    tileList[i][d] = currentTile;
+                }
+            }
+        }
+
+        hasLoaded = true;
+    }
+
+
+    public boolean hasLoaded() {
+
+        return hasLoaded;
+    }
+
+    public Vector2i getTileDimensions() {
+
+        return tileDimensions;
+    }
+
+    public Tile[][] getTileList() {
+
+        return tileList;
     }
 
 }

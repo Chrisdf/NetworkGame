@@ -2,11 +2,11 @@ package com.classes;
 
 import com.classes.net.Client;
 import com.classes.net.Server;
+import com.classes.net.packets.Packet03MapData;
 import com.classes.ui.FPS;
 import com.classes.util.Resource;
 import com.classes.util.UIElement;
 import org.jsfml.graphics.ConstView;
-import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Clock;
@@ -49,10 +49,12 @@ public class Game {
 
         username = JOptionPane.showInputDialog("Enter a username: | If want to start a server, enter 'server'");
 
-        if(!username.equals("server"))
+        if (!username.equals("server"))
             serverIP = JOptionPane.showInputDialog("Enter an IP to connect to: | If you are the server, enter 'localhost'");
         else
             serverIP = "localhost";
+
+        loader = new Resource();
 
         client = new Client(this, serverIP);
         client.start();
@@ -64,6 +66,8 @@ public class Game {
 
             server = new Server(this);
             server.start();
+
+            currentMap = new Map(new Vector2i(20, 20));
         }
 
 
@@ -74,10 +78,6 @@ public class Game {
         defaultView = renderWindow.getDefaultView();
 
         gameView = new View(defaultView.getCenter(), defaultView.getSize());
-
-        loader = new Resource();
-
-        currentMap = new Map(new Vector2i(80, 80));
 
         fps = new FPS();
 
@@ -110,29 +110,32 @@ public class Game {
 
         while (renderWindow.isOpen()) {
 
-            float elapsedTime = gameClock.restart().asSeconds();
-            lag += elapsedTime;
-            frameTime += elapsedTime;
+            if (mainPlayer != null && currentMap.hasLoaded()) {
+
+                float elapsedTime = gameClock.restart().asSeconds();
+                lag += elapsedTime;
+                frameTime += elapsedTime;
 
 
-            handleInput();
+                handleInput();
 
-            while (lag >= seconds_per_tick) {
+                while (lag >= seconds_per_tick) {
 
-                update();
-                lag -= seconds_per_tick;
+                    update();
+                    lag -= seconds_per_tick;
+                }
+
+
+                draw(lag / seconds_per_tick);
+
+                if (frameTime >= 1.0f) {
+                    fps.displayFPS((int) (framesDrawn / frameTime));
+                    framesDrawn = 0;
+                    frameTime = 0;
+                }
+
+                framesDrawn++;
             }
-
-
-            draw(lag / seconds_per_tick);
-
-            if (frameTime >= 1.0f) {
-                fps.displayFPS((int) (framesDrawn / frameTime));
-                framesDrawn = 0;
-                frameTime = 0;
-            }
-
-            framesDrawn++;
         }
     }
 
@@ -148,7 +151,7 @@ public class Game {
                     client.sendData(("01" + username).getBytes());
                     client.closeSocket();
 
-                    if(server != null)
+                    if (server != null)
                         server.closeSocket();
 
                     renderWindow.close();
@@ -237,6 +240,11 @@ public class Game {
     public Map getCurrentMap() {
 
         return currentMap;
+    }
+
+    public void setMap(Packet03MapData mapDataPacket) {
+
+        currentMap.setMap(mapDataPacket.getTileList(), mapDataPacket.getTileDimensions());
     }
 
     public View getGameView() {
