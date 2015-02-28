@@ -30,7 +30,7 @@ public class Map implements Drawable {
 
     public Map(Vector2i mapDimensions) {
 
-        this.tileDimensions = new Vector2i(100, 100);
+        this.tileDimensions = new Vector2i(32, 32);
         this.mapDimensions = mapDimensions;
 
         playerList = new HashMap<String, PlayerMP>();

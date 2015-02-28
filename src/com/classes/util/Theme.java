@@ -7,19 +7,26 @@ public enum Theme {
 
     STONELIGHT,
     STONEDARK,
-    GRASS;
+    STONEDARKEST,
+    GLASS;
 
 
     public static Theme getRandomTheme() {
 
-        int themePick = (int) (Math.random() * 2) + 1;
+        int numOfThemes = 4;
+
+        int themePick = (int) (Math.random() * numOfThemes) + 1;
 
         switch (themePick) {
 
             case 1:
-                return Theme.GRASS;
+                return Theme.GLASS;
             case 2:
                 return Theme.STONEDARK;
+            case 3:
+                return Theme.STONEDARKEST;
+            case 4:
+                return Theme.STONELIGHT;
             default:
                 return Theme.STONELIGHT;
         }

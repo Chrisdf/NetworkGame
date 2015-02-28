@@ -4,7 +4,6 @@ import org.jsfml.graphics.Font;
 import org.jsfml.graphics.Texture;
 
 import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +29,10 @@ public class Resource {
     public void addResources() {
         addTexture("yoda", "png");
         addFont("heav", "ttf");
-        addTexture("Grass", "jpg");
-        addTexture("StoneDark", "jpg");
-        addTexture("StoneLight", "jpg");
+        addTexture("Glass", "png");
+        addTexture("Stone_Dark", "png");
+        addTexture("Stone_Light", "png");
+        addTexture("Stone_Darkest", "png");
 
     }
 

@@ -41,11 +41,15 @@ public class Tile implements Drawable {
         //Load the texture from com.classes.resources based on theme type
         spriteTexture = Game.getLoader().getTexture(getTileTextureName());
 
+
         //Mark the tile collision box as the pixel area of the tile
         tileArea = new IntRect(gamePosition, tileDimensions);
 
         tileSprite = new Sprite(spriteTexture);
         tileSprite.setPosition(new Vector2f(gamePosition));
+
+        Vector2f tileScale = Vector2f.componentwiseDiv(new Vector2f(tileDimensions), new Vector2f(spriteTexture.getSize()));
+        tileSprite.setScale(tileScale);
 
         tileFriction = 0.4f;
 
@@ -55,15 +59,17 @@ public class Tile implements Drawable {
 
         switch (theme) {
 
-            case GRASS:
-                return "Grass";
+            case GLASS:
+                return "Glass";
             case STONELIGHT:
-                return "StoneLight";
+                return "Stone_Light";
             case STONEDARK:
-                return "StoneDark";
+                return "Stone_Dark";
+            case STONEDARKEST:
+                return "Stone_Darkest";
         }
 
-        return "StoneDark";
+        return "Stone_Dark";
     }
 
     public Vector2i getTileDimensions() {
