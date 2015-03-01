@@ -244,6 +244,7 @@ public class Game {
 
     public void setMap(Packet03MapData mapDataPacket) {
 
+        currentMap = new Map();
         currentMap.setMap(mapDataPacket.getTileList(), mapDataPacket.getTileDimensions());
     }
 

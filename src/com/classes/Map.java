@@ -198,7 +198,10 @@ public class Map implements Drawable {
 
     public void setMap(int[][] mapTileData, Vector2i tileDimensions) {
 
+        System.out.println("Setting map with server data");
+
         this.tileDimensions = tileDimensions;
+        tileList = new Tile[mapTileData.length][mapTileData[0].length];
         this.mapDimensions = new Vector2i(mapTileData.length, mapTileData[0].length);
 
         for (int i = 0; i < mapTileData.length; i++) {
