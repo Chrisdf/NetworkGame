@@ -8,22 +8,22 @@ import java.util.Map;
  */
 public enum TileType {
 
-    STONELIGHT(0),
-    STONEDARK(1),
-    STONEDARKEST(2),
-    GLASS(3);
+    STONELIGHT(1),
+    STONEDARK(2),
+    STONEDARKEST(3),
+    GLASS(4);
 
     public static String getTileTextureName(int index) {
 
         switch (index) {
 
-            case 0:
-                return "Stone_Light";
             case 1:
-                return "Stone_Dark";
+                return "Stone_Light";
             case 2:
-                return "Stone_Darkest";
+                return "Stone_Dark";
             case 3:
+                return "Stone_Darkest";
+            case 4:
                 return "Glass";
         }
 
@@ -42,6 +42,8 @@ public enum TileType {
         enumMap = new HashMap<Integer, TileType>();
         for (TileType v : TileType.values())
             enumMap.put(v.index, v);
+
+        System.out.println(enumMap);
     }
 
     public static TileType findTileTypeByIndex(int index) {
@@ -53,12 +55,15 @@ public enum TileType {
 
     static {
         indexMap = new HashMap<TileType, Integer>();
-        for (int i = 0; i < TileType.values().length; i++)
+        for (int i = 1; i < TileType.values().length + 1; i++)
             indexMap.put(TileType.findTileTypeByIndex(i), i);
+
+        System.out.println(indexMap);
     }
 
     public static int findIndexByTileType(TileType type) {
 
+        System.out.println(type);
         return indexMap.get(type);
     }
 
@@ -67,7 +72,7 @@ public enum TileType {
 
         int numOfTypes = TileType.values().length;
 
-        int typePick = (int) (Math.random() * numOfTypes);
+        int typePick = (int) (Math.random() * numOfTypes + 1);
 
         return enumMap.get(typePick);
     }

@@ -37,7 +37,7 @@ public class Map implements Drawable {
         hasLoaded = false;
     }
 
-    public Map(Vector2i mapDimensions) {
+    public Map(Vector2i mapDimensions, int minNumOfDungeons, int varianceInNumOfDungeons) {
 
         this.tileDimensions = new Vector2i(32, 32);
         this.mapDimensions = mapDimensions;
@@ -47,8 +47,6 @@ public class Map implements Drawable {
         roomList = new ArrayList<Room>();
         tileList = new Tile[mapDimensions.x][mapDimensions.y];
 
-        int minNumOfDungeons = 1;
-        int varianceInNumOfDungeons = 2;
         numOfDungeons = (int) (Math.random() * varianceInNumOfDungeons) + minNumOfDungeons;
 
         addRooms();
@@ -206,7 +204,7 @@ public class Map implements Drawable {
         for (int i = 0; i < mapTileData.length; i++) {
             for (int d = 0; d < mapTileData[i].length; d++) {
 
-                if (mapTileData[i][d] != 99) {
+                if (mapTileData[i][d] != 0) {
 
                     Vector2i boardPos = new Vector2i(i, d);
                     Vector2i gamePosition = Vector2i.componentwiseMul(boardPos, tileDimensions);

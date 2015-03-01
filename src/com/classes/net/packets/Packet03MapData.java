@@ -22,7 +22,7 @@ public class Packet03MapData extends Packet {
         /**
          * The game map is a tile matrix represented by an integer matrix for data transfer.
          * Each tile is represented by an int, separated from another tile by the '_' delimiter.
-         * A new line on the matrix is represented by the '|' delimiter
+         * A new line on the matrix is represented by the '#' delimiter
          */
 
         super(03);
@@ -39,9 +39,11 @@ public class Packet03MapData extends Packet {
         System.out.println(mapRowArray.length);
 
         this.tileList = new int[mapRowArray.length][mapRowArray.length];
+
         for (int i = 0; i < mapRowArray.length; i++) {
 
             String[] mapColumnArray = mapRowArray[i].split("_");
+            System.out.println(mapColumnArray.length);
 
             for (int d = 0; d < mapColumnArray.length; d++)
                 tileList[i][d] = Integer.parseInt(mapColumnArray[d]);
@@ -66,14 +68,13 @@ public class Packet03MapData extends Packet {
             for (int d = 0; d < tileList[i].length; d++) {
 
                 if (tileList[i][d] == null)
-                    this.tileList[i][d] = 5;
+                    this.tileList[i][d] = 0;
 
                 else {
                     int tileValue = TileType.findIndexByTileType(tileList[i][d].getTileTypeIndex());
                     this.tileList[i][d] = tileValue;
                 }
             }
-
     }
 
     @Override
@@ -94,18 +95,18 @@ public class Packet03MapData extends Packet {
         /**
          * Turns the tileList int matrix into a string matrix with each tile
          * separated by a '_' delimiter and each tile line separated by a
-         * '|' delimiter
+         * '#' delimiter
          */
 
         String mapData = "";
 
-        for (int i = 0; i < tileList.length - 1; i++) {
+        for (int i = 0; i < tileList.length; i++) {
             for (int d = 0; d < tileList[i].length; d++) {
 
                 mapData += tileList[i][d] + "_";
             }
 
-            if (i != tileList.length - 2)
+            if (i != tileList.length - 1)
                 mapData += "#";
         }
 
