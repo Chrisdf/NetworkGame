@@ -67,7 +67,7 @@ public class Game {
             server = new Server(this);
             server.start();
 
-            currentMap = new Map(new Vector2i(10, 10), 1, 0);
+            currentMap = new Map(new Vector2i(16, 16), 2, 0);
         }
 
 

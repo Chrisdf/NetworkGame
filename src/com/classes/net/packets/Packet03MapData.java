@@ -31,24 +31,23 @@ public class Packet03MapData extends Packet {
         tileDimensions = new Vector2i(Integer.parseInt(dataArray[1]), 0);
         tileDimensions = new Vector2i(tileDimensions.x, Integer.parseInt(dataArray[2]));
 
-        for (int i = 0; i < dataArray.length; i++)
-            System.out.println(dataArray[i]);
-
         String[] mapRowArray = dataArray[3].split("#");
 
-        System.out.println(mapRowArray.length);
+        System.out.println("RECIEVED MAP ROW LENGTH: " + mapRowArray.length);
 
         this.tileList = new int[mapRowArray.length][mapRowArray.length];
 
         for (int i = 0; i < mapRowArray.length; i++) {
 
             String[] mapColumnArray = mapRowArray[i].split("_");
-            System.out.println(mapColumnArray.length);
+            System.out.println("RECIEVED MAP COLUMN LENGTH " + mapColumnArray.length);
 
             for (int d = 0; d < mapColumnArray.length; d++)
                 tileList[i][d] = Integer.parseInt(mapColumnArray[d]);
         }
 
+
+        System.out.println("Map tile data: \n");
         for (int i = 0; i < this.tileList.length; i++) {
             for (int d = 0; d < this.tileList[i].length; d++)
                 System.out.print(this.tileList[i][d] + " ");
@@ -127,13 +126,6 @@ public class Packet03MapData extends Packet {
     public int[][] getTileList() {
 
         return tileList;
-    }
-
-    private void printArray() {
-
-        for (int i = 0; i < tileList.length; i++)
-            for (int d = 0; d < tileList[i].length; d++)
-                System.out.println(tileList[i][d]);
     }
 
 }

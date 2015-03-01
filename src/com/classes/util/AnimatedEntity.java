@@ -69,6 +69,11 @@ public class AnimatedEntity extends Entity {
         int yStartCoords = spriteSize.y * verticalFramePosition;
         IntRect textureRect = new IntRect(xStartCoords, yStartCoords, spriteSize.x, spriteSize.y);
         sprite.setTextureRect(textureRect);
+
+        //If the player is not moving, do not animate
+        if (FloatFunctions.isEqual(velocity.x, 0, 0.5))
+            if (FloatFunctions.isEqual(velocity.y, 0, 0.5))
+                isAnimating = false;
     }
 
     protected void setFramesPerAnimation(int framesPerAnimation) {

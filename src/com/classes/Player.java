@@ -4,8 +4,7 @@ import com.classes.net.packets.Packet02Move;
 import com.classes.util.AnimatedEntity;
 import com.classes.util.Direction;
 import com.classes.util.FloatFunctions;
-import org.jsfml.graphics.Color;
-import org.jsfml.graphics.View;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
 import java.util.HashSet;
@@ -17,32 +16,37 @@ import java.util.Set;
  */
 public class Player extends AnimatedEntity {
 
-    String playerName;
+    protected String playerName;
 
-    View gameView;
+    protected Text displayedName;
 
-    float gameViewZoom;
+    protected View gameView;
 
-    Set<String> inputList;
+    protected float gameViewZoom;
+
+    protected Set<String> inputList;
 
 
     public Player(String playerName, String textureName, Vector2f gamePosition, View gameView, int framesPerAnimation) {
 
-        super(textureName, gamePosition, framesPerAnimation);
-        this.playerName = playerName;
+        this(playerName, textureName, gamePosition, framesPerAnimation);
+
         this.gameView = gameView;
         gameViewZoom = 1f;
-        super.maxVelocity = new Vector2f(10, 10);
-        inputList = new HashSet<String>();
     }
 
-    public Player(String playerName, String textureName, Vector2f gamePosition, int framesPerAniamtion) {
+    public Player(String playerName, String textureName, Vector2f gamePosition, int framesPerAnimation) {
 
-        super(textureName, gamePosition, framesPerAniamtion);
+        super(textureName, gamePosition, framesPerAnimation);
         this.playerName = playerName;
         super.maxVelocity = new Vector2f(10, 10);
         inputList = new HashSet<String>();
 
+        Font heav = Game.getLoader().getFont("heav");
+        this.displayedName = new Text(playerName, heav, 19);
+        displayedName.setOrigin(displayedName.getLocalBounds().width / 2, displayedName.getLocalBounds().height / 2);
+        displayedName.setPosition(Vector2f.add(this.sprite.getPosition(), new Vector2f(0, 0)));
+        displayedName.setColor(new Color(Color.CYAN, 150));
     }
 
     @Override
@@ -65,15 +69,16 @@ public class Player extends AnimatedEntity {
 
         super.update();
 
-
-        //If the player is not moving, do not animate
-        if (FloatFunctions.isEqual(velocity.x, 0, 0.5))
-            if (FloatFunctions.isEqual(velocity.y, 0, 0.5))
-                isAnimating = false;
-
-
         inputList.clear();
 
+        displayedName.setPosition(Vector2f.add(this.sprite.getPosition(), new Vector2f(0, 0)));
+    }
+
+    @Override
+    public void draw(RenderTarget renderTarget, RenderStates renderStates) {
+
+        super.draw(renderTarget, renderStates);
+        displayedName.draw(renderTarget, renderStates);
     }
 
     public void respondToInput() {

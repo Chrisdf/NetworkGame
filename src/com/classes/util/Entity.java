@@ -92,8 +92,11 @@ public class Entity implements Drawable {
     public void setAngle() {
 
         Vector2f angleComp = velocity;
-        angleFromNorth = Math.atan2(angleComp.y, angleComp.x);
+        angleFromNorth = Math.toDegrees(Math.atan2(angleComp.y, angleComp.x));
         angleFromNorth = Math.round(angleFromNorth);
+        System.out.println("Angle From North After Rounding: " + angleFromNorth);
+
+
         /**
          angleDisplay = new RectangleShape(new Vector2f(30, 5));
          angleDisplay.setPosition(gamePosition);
@@ -172,12 +175,13 @@ public class Entity implements Drawable {
 
     public void setFacingDirection() {
 
+        System.out.println("Angle when picking direction to face: " + angleFromNorth);
 
-        if (angleFromNorth >= 90)
+        if (angleFromNorth > 90)
             direction = Direction.WEST;
-        else if (angleFromNorth >= 0)
+        else if (angleFromNorth > 0)
             direction = Direction.SOUTH;
-        else if (angleFromNorth >= -90)
+        else if (angleFromNorth > -90)
             direction = Direction.EAST;
         else
             direction = Direction.NORTH;
