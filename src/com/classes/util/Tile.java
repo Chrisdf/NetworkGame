@@ -68,6 +68,10 @@ public class Tile implements Drawable {
         return TileType.findTileTypeByIndex(tileTypeIndex);
     }
 
+    public Vector2i getGamePosition() {
+        return gamePosition;
+    }
+
     public void draw(RenderTarget renderTarget, RenderStates renderStates) {
 
         tileSprite.draw(renderTarget, renderStates);

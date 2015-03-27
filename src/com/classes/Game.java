@@ -73,7 +73,7 @@ public class Game {
 
         renderWindow = new RenderWindow();
         renderWindow.create(new VideoMode(1280, 720), "NetworkGame");
-        renderWindow.setFramerateLimit(60);
+        //renderWindow.setFramerateLimit(60);
 
         defaultView = renderWindow.getDefaultView();
 

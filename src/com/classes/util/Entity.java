@@ -14,6 +14,8 @@ public class Entity implements Drawable {
 
     protected Map currentMap;
 
+    protected String textureName;
+
     protected Vector2f velocity;
 
     protected Vector2f acceleration;
@@ -32,17 +34,15 @@ public class Entity implements Drawable {
 
     protected RectangleShape collisionBox;
 
-    protected RectangleShape angleDisplay;
-
     public Entity(String textureName, Vector2f gamePosition) {
 
         this.gamePosition = getBottomCenterPosition(gamePosition);
+        this.textureName = textureName;
 
         velocity = new Vector2f(0, 0);
         acceleration = new Vector2f(0, 0);
         maxVelocity = new Vector2f(5, 5);
         angleFromNorth = Math.atan2(velocity.y, velocity.x);
-        angleDisplay = new RectangleShape();
 
         spriteTexture = Game.getLoader().getTexture(textureName);
         sprite = new Sprite(spriteTexture);
@@ -160,8 +160,7 @@ public class Entity implements Drawable {
     public void draw(RenderTarget renderTarget, RenderStates renderStates) {
 
         sprite.draw(renderTarget, renderStates);
-        collisionBox.draw(renderTarget, renderStates);
-        angleDisplay.draw(renderTarget, renderStates);
+        //collisionBox.draw(renderTarget, renderStates);
     }
 
     public String toString() {
@@ -185,6 +184,10 @@ public class Entity implements Drawable {
             direction = Direction.EAST;
         else
             direction = Direction.NORTH;
+    }
+
+    public String getTextureName() {
+        return textureName;
     }
 
     public Vector2f getAcceleration() {

@@ -1,9 +1,11 @@
 package com.classes;
 
+import com.classes.net.packets.Packet04EntityPosition;
 import com.classes.util.*;
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
+import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import java.util.ArrayList;
@@ -51,6 +53,9 @@ public class Map implements Drawable {
 
         addRooms();
         addHallways();
+
+        instantiateEntities();
+        //instantiateNPCs();
 
         hasLoaded = true;
     }
@@ -110,6 +115,32 @@ public class Map implements Drawable {
 
         for (String key : playerList.keySet()) {
             playerList.get(key).draw(renderTarget, renderStates);
+        }
+    }
+
+    private void instantiateNPCs() {
+
+        int numOfNPCs = 5;
+
+        for(int i = 0; i < numOfNPCs; i++) {
+
+            Vector2i randomGamePos = VectorFunctions.randomNum(new Vector2i(-100, 100), new Vector2i(-100, 100));
+
+            NPC current = new NPC("yoda", new Vector2f(randomGamePos));
+            entityList.add(current);
+        }
+    }
+
+    private void instantiateEntities() {
+
+        int numOfEntities = 10;
+
+        for(int i = 0; i < numOfEntities; i++) {
+
+            Vector2i randomGamePos = VectorFunctions.randomNum(new Vector2i(100, 300), new Vector2i(0, 200));
+
+            Entity current = new Entity("Red_Rock", new Vector2f(randomGamePos));
+            entityList.add(current);
         }
     }
 
@@ -221,6 +252,14 @@ public class Map implements Drawable {
         hasLoaded = true;
     }
 
+    public void addEntity(Packet04EntityPosition entityPos) {
+
+        Entity entity = new Entity(entityPos.getEntityName(), entityPos.getGamePosition());
+
+        entityList.add(entity);
+
+    }
+
 
     public boolean hasLoaded() {
 
@@ -232,9 +271,23 @@ public class Map implements Drawable {
         return tileDimensions;
     }
 
+    public ArrayList<Entity> getEntityList() {
+
+        return entityList;
+    }
+
     public Tile[][] getTileList() {
 
         return tileList;
     }
 
+    public Vector2i getRandomTilePosition() {
+
+        Vector2i xRange = new Vector2i(0, tileList.length - 1);
+        Vector2i yRange = new Vector2i(0, tileList[0].length - 1);
+
+        Vector2i randomTile = VectorFunctions.randomNum(xRange, yRange);
+
+        return tileList[randomTile.x][randomTile.y].getGamePosition();
+    }
 }

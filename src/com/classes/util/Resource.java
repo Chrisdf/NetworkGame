@@ -33,6 +33,7 @@ public class Resource {
         addTexture("Stone_Dark", "png");
         addTexture("Stone_Light", "png");
         addTexture("Stone_Darkest", "png");
+        addTexture("Red_Rock", "png");
 
     }
 

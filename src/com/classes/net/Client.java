@@ -146,6 +146,13 @@ public class Client extends Thread {
 
                 break;
 
+            case ENTITYPOS:
+
+                Packet04EntityPosition entityPos = new Packet04EntityPosition(data);
+
+                game.getCurrentMap().addEntity(entityPos);
+
+
             case INVALID:
 
                 System.out.println("INVALID PACKET RECEIVED");

@@ -109,6 +109,8 @@ public class Packet03MapData extends Packet {
                 mapData += "#";
         }
 
+        System.out.println((mapData + "").getBytes().length);
+
 
         return ("03" + this.username + "," + tileDimensions.x + "," + tileDimensions.y + "," + mapData).getBytes();
     }

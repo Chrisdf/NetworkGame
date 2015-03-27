@@ -3,6 +3,7 @@ package com.classes.net;
 import com.classes.Game;
 import com.classes.PlayerMP;
 import com.classes.net.packets.*;
+import com.classes.util.Entity;
 import org.jsfml.system.Vector2f;
 
 import java.io.IOException;
@@ -116,6 +117,12 @@ public class Server extends Thread {
 
                     Packet03MapData mapData = new Packet03MapData(loginPacket.getUsername(), game.getCurrentMap().getTileList(), game.currentMap.getTileDimensions());
                     sendData(mapData.getData(), ipAddress, port);
+
+                    for(Entity current: game.getCurrentMap().getEntityList()) {
+
+                        Packet04EntityPosition entityData = new Packet04EntityPosition(current.getTextureName(), current.getGamePosition());
+                        sendData(entityData.getData(), ipAddress, port);
+                    }
 
                     /**
                      * Tell the connecting player about all the players currently in the game

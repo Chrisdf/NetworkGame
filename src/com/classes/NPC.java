@@ -1,15 +1,18 @@
-package com.classes.util;
+package com.classes;
 
+import com.classes.util.AnimatedEntity;
+import com.classes.util.Entity;
+import com.classes.util.Resource;
 import org.jsfml.system.Vector2f;
 
 /**
  * Created by chris on 2/10/15.
  */
-public class NPC extends Entity {
+public class NPC extends AnimatedEntity {
 
-    public NPC(Resource loader, String textureName, Vector2f gamePosition) {
+    public NPC(String textureName, Vector2f gamePosition) {
 
-        super(textureName, gamePosition);
+        super(textureName, gamePosition, 5);
     }
 
     @Override

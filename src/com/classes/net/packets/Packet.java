@@ -16,7 +16,8 @@ public abstract class Packet {
         LOGIN(00),
         DISCONNECT(01),
         MOVE(02),
-        MAPDATA(03);
+        MAPDATA(03),
+        ENTITYPOS(04);
 
         private int packetID;
 
